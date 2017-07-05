@@ -1,0 +1,44 @@
+{extend name="index/index"}
+{block name="main"}
+
+<div class="span9">
+    <div class="row-fluid">
+        <div class="page-header">
+            <h1>NEW CLASS <small>插入广告</small></h1>
+        </div>
+        <form action="{:url('advertisement/upload')}" class="form-horizontal" method="post" enctype="multipart/form-data">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="number">广告类型编号</label>
+                    <div class="controls">
+                        <input type="text" name="number" class="input-xlarge" id="number" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="image">图片</label>
+                    <div class="controls">
+                        <input type="file" name="image" class="input-xlarge" id="image" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="name">广告名</label>
+                    <div class="controls">
+                        <input type="text" name="name" class="input-xlarge" id="name" />
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-actions background-null">
+                    <input type="submit" class="btn btn-success btn-large" value="上传" /> <ainputututass="btn" href="../Vip/users.html">取消</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</div>
+
+<hr>
+
+{/block}

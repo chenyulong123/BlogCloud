@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>{$title}</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
+	<link href="/static/css/boot/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/css/user/boilerplate.css" rel="stylesheet" type="text/css">
+	<link href="/static/css/user/base.css" rel="stylesheet" type="text/css">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="">
+	<link rel="apple-touch-icon-precomposed" href="">
+	<link rel="shortcut icon" href="">
+	<script src="/static/js/jquery-1.9.1.min.js"></script>
+
+	<!--[if lt IE 9]>
+	<script src="/static/js/html5.js"></script>
+	<script type="text/javascript" src="/static/js/selectivizr-min.js"></script>
+	<![endif]-->
+	<!--[if lt IE 7]>
+	<script src="/static/js/minmax.js"></script>
+	<![endif]-->
+
+	<script type="text/javascript" src="/static/js/picobox.js"></script>
+	<script type="text/javascript" src="/static/js/user/picobox_beauty.js"></script>
+	<link rel="stylesheet" href="/static/css/user/picobox.css" type="text/css"  />
+	<link rel="stylesheet" href="/static/css/user/picobox_beauty.css" type="text/css"  />
+
+
+	<script language="javascript">
+        function doCheck(ischecked) {
+            $('input.mch').each(function(i){
+                this.checked = ischecked;
+            });
+        }
+        function getChecked() {
+            var ids = '';
+            $('input.mch').each(function(i){
+                if (this.checked) {
+                    ids += this.value + ',';
+                }
+            });
+            if (ids != '') {
+                ids = ids.substr(0, ids.length-1);
+            }
+            return ids;
+        }
+        function confirmDel() {
+            var ids = getChecked();
+            if (ids.length == '') {
+                alert('请选择要删除的记录。');
+                return false;
+            }
+            if (!confirm('真的要删除选中的记录吗？')) {
+                return false;
+            }
+            return true;
+        }
+	</script>
+</head>
+<body>
+<div class="header">
+	<div class="header-inner">
+		<div class="user-info">
+			<div class="user-avatar">
+      					<span class="pie" title="">
+      						<a href="#">
+      							<img src="{$_SESSION['icon']}" alt="" class="pie">
+      						</a>
+      					</span>
+			</div>
+			<h2 class="user-name">{$_SESSION['name']} &nbsp;<a href="{:url('index/index/Log_out')}" style='color:#666'>退出</a></h2>
+			<p id="prompt-msg">
+				<script type="text/javascript">document.write(welcomeText("{$_SESSION['name']}"))</script></p>
+		</div>
+		<div class="utilities">
+			<ul>
+				<li class="dashboard"><a href="{:url('/User')}"><span class="pie icon"><span class="pie indicator" id="msgcount">0</span></span>管理中心</a></li>
+				<li class="new-entry"><a href="{:url('index/blog/newblog')}"><span class="pie icon"></span>新日志</a></li>
+				<li class="blog-list"><a href="{:url('index/blog/index')}"><span class="pie icon"></span>博客</a></li>
+				<li class="album-list"><a href="{:url('/Album')}"><span class="pie icon"></span>相册</a></li>
+				<li class="friend-list"><a href="{:url('/Friend')}"><span class="pie icon"></span>好友</a></li>
+				<li class="events"><a href="{:url('/activity')}"><span class="pie icon"></span>活动</a></li>
+				<li class="vip"><a href="{:url('index/vip/index')}"><span class="pie icon"></span>VIP</a></li>
+				<li class="home"><a href="{:url('/index')}"><span class="pie icon"></span>首页</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    (function (){
+        $('#allSubMenus').css('display','none');
+        var _menuEff={};
+        _menuEff.cur=null;
+        function switchMenu(id) {
+            var menu_html = (_menuEff.cur.hasClass('menuBlogClass') && id=='menuBlog' && menu) ? menu : $('#allSubMenus #'+id).html();
+            $('#appSubMenuBlock').html(menu_html).css('paddingLeft', $('#allSubMenus #'+id).css('paddingLeft'));
+        }
+        $('ul.menus li').hover(function(e){
+                _menuEff.cur=_menuEff.cur||$('ul.menus li.actived');
+                $('ul.menus li').removeClass('actived');
+                var id = 'menu'+this.className.match(/menu(\w+)Class/)[1];
+                switchMenu(id);
+                $(this).addClass('actived');
+            },
+            function(e){
+                if (e.relatedTarget.tagName!='DIV') {
+                    return;
+                }
+                if (_menuEff.cur && !$(e.relatedTarget).hasClass('subMenus')) {
+                    $('ul.menus li').removeClass('actived');
+                    _menuEff.cur.addClass('actived');
+                    var id = _menuEff.cur[0].className.match(/(menu\w+)Class/)[1];
+                    switchMenu(id);
+                }
+            });
+        $('div.mainNavi').mouseout(function(e){
+            if (_menuEff.cur && e.relatedTarget.id=='wrapper') {
+                $('ul.menus li').removeClass('actived');
+                _menuEff.cur.addClass('actived');
+                var id = _menuEff.cur[0].className.match(/(menu\w+)Class/)[1];
+                switchMenu(id);
+            }
+        });
+    })();
+
+</script>
+
+<!--main start-->
+<!--<script type="text/javascript">-->
+
+
+<link rel="stylesheet" href="/static/css/user/message.css" type="text/css"  />
+<div class="nav">
+	<div class="container">
+		<ul>
+			<li class="geren"><a href="{:url('/user/Person_Info')}" class="pie">个人信息</a></li>
+			<li class="gerenshezhi"><a href="{:url('/user/Person_Mod')}" class="pie">个人信息设置</a></li>
+			<li class="tongxinzheng"><a href="{:url('/user/Person_Passport')}" class="pie">通行证管理</a></li>
+			<li class="yingsi"><a href="{:url('/user/Person_Secret')}" class="pie">隐私设置</a></li>
+			<li class="xiaoxi"><a href="{:url('/user')}" class="pie" >消息</a></li>
+		</ul>
+	</div>
+</div>
+{block name="main"}
+<script type="text/javascript">
+    $('li.menuIndexClass').addClass('actived');
+    $('a.submenuFriendList').addClass('actived');
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".cancel").click(function(){
+            $(this).parents(".pm_main").find('.pm_rebutton').show();
+            $(this).parents(".pm_reform").hide('fast');
+            return(false);
+        });
+
+        $(".pmItem .rep").click(function(){
+            $(this).parents(".pm_rebutton").hide();
+            $(this).parents(".pm_rebutton").next(".pm_reform").show("fast");
+            return(false);
+        });
+        $(".pmListSys .pmItem:last").css("background-image","none");
+
+        $(".pmListSys h5").click(function(){
+            $(this).nextAll(".pm_main_content").toggle("fast", function(t){
+                var item = $(this).parents(".pmItem");
+                if ($(this).css('display') == 'block' && !item.hasClass('read')) {
+                    var id = item.attr('id').match(/sys_(\d+)/)[1];
+                    read_sys_msgs(id);
+                    item.addClass('read');
+                    // unread count minus 1
+                    $('#msgcount').text($('#msgcount').text()-1);
+                }
+            });
+            $(this).find(".pm_fold").toggle();
+            $(this).find(".pm_unfold").toggle();
+        });
+    });
+
+    function read_sys_msgs(id) {
+        $.ajax({
+            beforeSend:function(xhr){
+                xhr.setRequestHeader('Accept', 'text/json');
+            },
+            type:'POST',
+			/* success: callback, */
+            data:{'id':id},
+            async: false,
+            url:'/sys_message_read'
+        });
+    }
+
+</script>
+
+<div class="content">
+	<div class="container">
+		<div class="blog-submenus">
+			<a href="" class="actived">收件箱</a>
+		</div>
+		<div id="pub_main" class="pub_topline">
+			<ul class="pmList pmListSys">
+				<ul class="pmList">
+					<li class="pmItem">
+						<div class="pm_cheackbox">
+
+							<div class="pm_main">
+								<h5 class="msg"></h5>
+								<div class="pm_time">
+									<a class="agree btn btn-default" href="{:url('/UserInfo/Add_Friend_Ag')}" role="button">同意</a>
+									<!--<span><a href="{:url('/UserInfo/Add_Friend_Ag')}" title="同意" class="agree">同 意</a></span>-->
+									<button class="del btn btn-default" type="submit" >拒绝</button>
+								</div>
+								<h6>来自
+									<a title="个人信息" class="info"></a></h6>
+
+							</div>
+						</div>
+					</li>
+				</ul>
+			</ul>
+		</div>
+
+	</div>
+</div>
+<div class="paginator">
+	<span class='pager'><span class="total">共1页</span> <span class="pages"> <span class="current">1</span></span></span>     	</div>
+
+<script>
+    $(document).ready(function (){
+        $.ajax({
+            type: 'get',
+            url: '/UserInfo/Accept_Message',
+            dataType: 'json',
+            success: function (data){
+                if (data.message !== null && data.message !== '') {
+                    var info = data.message.split(" ");
+                    $('.msg').html(data.message);
+                    $('.info').html(info[0]);
+                } else {
+                    $('.msg').html('暂无消息');
+                    $('.del').hide();
+                    $('.agree').hide();
+
+                }
+
+            },
+            error: function(){
+                console.log('发送请求失败');
+            }
+        })
+    });
+
+    $(function(){
+        $('.del').click(function (){
+            var name = $('.info').html();
+            console.log(name);
+            $.ajax({
+                type: 'get',
+                url: '/UserInfo/Friend_Del?name=' + name,
+                dataType: 'json',
+                success: function (data){
+                    if (data) {
+                        $('.del').hide();
+                        $('.agree').hide();
+                        $('.msg').hide();
+                        $('.info').hide();
+                    }
+                },
+                error: function (){
+                    console.log('发送请求失败');
+                },
+            });
+        });
+
+    })
+
+</script>
+
+
+{/block}
+<div id="footer" class="footer">
+	<div class="utilityMenu">
+		<a target="_blank" href="#">媒体报道</a>&nbsp;|&nbsp;
+		<a target="_blank" href="#">关于我们</a>&nbsp;|&nbsp;
+		<a target="_blank" href="#">工作机会</a>&nbsp;|
+		&nbsp;<a target="_blank" href="#">相关法律</a>&nbsp;|
+		&nbsp;<a target="_blank" href="#">广告服务</a>&nbsp;|
+		&nbsp;<a target="_blank" href="#">申请博客</a>&nbsp;|&nbsp;
+		<a target="_blank" href="#">网站地图</a>&nbsp;|&nbsp;<a target="_blank" href="#">合作伙伴</a>
+	</div>
+	<div class="copyright">&copy; 2002-2017 BlogBus.com, All Rights Reserved. 博客云  版权所有  沪ICP B2-20080056号 </div>
+</div>
+<div class="ajaxInfo msg_success" style="display:none;" id="flashMessage">
+	<div class="message"></div>
+</div>
+
+
+<!--帮助-->
+<div class="pie page-help">
+	<div class="pie help-inner">
+		<ul><li><a target="_blank" href="#">谨防诈骗类中奖短消息</a></li><li><a target="_blank" href="#">如何处理收到的短消息</a></li></ul>
+	</div>
+</div>
+<div style="display:none;">
+</div>
+<div style='display:none'>
+
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="/static/js/boot/bootstrap.min.js"></script>
+</body>
+</html>

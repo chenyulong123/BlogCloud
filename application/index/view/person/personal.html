@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{$title} - 博客大巴</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="keywords" content="博客中国,中国博客,我的博客,私人日志,博客大巴,图片博客,社会热点,观点,生活,旅行,影像,自由,表达,城客,记录,分享,看法自由报,新媒体,博客研究,播客,BSP,个人门户,免费博客,空间,博客申请,中文博客,Blog,Blogger,网络日志,自媒体,社交网络,小清新,文艺范儿" />
+<link rel='alternate' type='application/rss+xml' title='RSS 2.0' href='#' />
+<link href='/static/css/personal/386289.css' rel='stylesheet' type='text/css' />
+<script>if (top.location != self.location) {top.location=self.location;}</script>
+    <script src="/static/js/personal/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/personal/m.js"></script>
+    <script type="text/javascript" src="/static/js/personal/checkSpam.js"></script>
+    <script src='other/.cn/p/?id=PM1304284357'></script>
+
+
+
+</head><body>
+<div id="index">
+
+	<div id="container">
+
+		<div id="header">
+
+			<h1 class="blogName"><a>{$title} 的个人博客</a></h1>
+
+			<div class="description"></div>
+
+			<div class="clear"></div>
+
+		</div>
+
+       <div id="innerContainer">
+
+           <div class="innerTop"></div>
+
+            <div id="outerContent">
+
+                <div id="content">
+
+                    <div class="contentTop"></div>
+
+                    <ul id="posts">
+
+                            <div class="postsTop"></div>
+
+                            
+                            <?php foreach($art_data as $art):?>
+                            <li>
+
+                                <div class="postHeader">
+
+                                    <h3><?= $art['post_time']?></h3>
+
+                                    <h2><a href="{:url('/index/Article?list_id='.$art['id'])}"><?= $art['title']?></a><span class='category'> - [<a href='#'>『生活』</a>]</span></h2>
+
+                                </div>
+
+                                <div class="postBody">
+                                    <div class="clear"></div>
+                                </div>
+
+                                <div class="postFooter">
+                                    <div class="tags">Tag：<?= $art['tags']?></div>
+                                </div>
+                            </li>
+                            <?php endforeach;?>
+
+
+                            <div class="postsBottom"></div>
+
+                        </ul>
+
+                        <!--<div class="pageNavi">共39页   <span>1</span> <a href="/index_2.html">2</a> <a href="/index_3.html">3</a> <a href="/index_4.html">4</a> <a href="/index_5.html">5</a> <a href="/index_6.html">6</a> <a href="/index_7.html">7</a> <a href="/index_8.html">8</a> <a href="/index_9.html">9</a> <a href="/index_10.html">10</a> <a href="/index_2.html" title="下一页">下一页</a> <a href="/index_39.html" title="最后一页">最后一页</a></div>-->
+
+                    <div class="contentBottom"></div>
+                </div>
+            </div>
+        </div>        
+
+		<div class="clear"></div>
+
+
+
+	</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,257 @@
+{extend name="user/mange-msg"}
+{block name="main"}
+
+<script type="text/javascript">
+<!--
+document.domain = 'tp5.com';
+//function chk_avatar_form(obj) {
+//    if (obj.avatar_file.value == '') {
+//        alert('请选择要上传的图片');
+//        return false;
+//    }
+//    document.getElementById('upload_msg').innerHTML = '正在上传...';
+//    obj.Submit1.disabled = true;
+//}
+//function submit_avatarform_callback(sucess, msg) {
+//    if (sucess) {
+//        document.getElementById('avatar_pic').src += '?v2';
+//    }
+//    document.getElementById('upload_msg').innerHTML = msg;
+//    document.avatar_form.reset();
+//    document.avatar_form.Submit1.disabled = false;
+//}
+function blockSwitch(block){
+	if(block.length==0){block='basic'};
+    $('.pub_subMenu strong').replaceWith($('.pub_subMenu strong').html());
+    $(".pub_subMenu > a[rel='"+block+"']").wrapInner("<strong></strong>"); 
+    $('div#main_form > div').hide();
+    $('div#main_form > div#'+block).show();	
+}
+function inputDesc(form_name,input_name, description){
+	input = $("form[name='"+form_name+"'] input[name='"+input_name+"']");
+	if(input.length==0)return false;
+	currentValue = input.val();
+	if(currentValue.length==0||currentValue==description){
+		input.css('color','#BBBFAC');
+		input.val(description);
+	}
+	input.attr("onblur","if(this.value.length==0){this.style.color='#BBBFAC';this.value='"+description+"';}");
+	input.attr("onfocus","if(this.value=='"+description+"'){this.style.color='#000000';this.value='';}");
+	$("form[name='"+form_name+"']").submit(function(){
+		if(input.val()==description){
+			input.val('');
+		}
+	});
+}
+$(document).ready(function() {
+	//根据锚点show相关Block
+	anchor = window.location.href.indexOf('#')+1;
+	if ( anchor ){
+		showBlock = window.location.href.substr(anchor);
+		blockSwitch(showBlock);
+	}
+	$(".pub_subMenu > a").click(function() {
+		blockSwitch($(this).attr("rel"));
+		return false;
+	});
+	//绑定所有input让其onmouseover自动focus
+	$(':text,textarea').mouseover(function(){$(this).focus();});
+	//表单提示语
+	inputDesc('personal_form','car_type','车型');
+	//表单校验
+	$("form[name='basic_form']").submit(function(){
+		var errorMsg = new Array();
+		if($(this)[0].lastname.value.length==0 && $(this)[0].firstname.value.length==0){
+			errorMsg.push('请填写您的真实姓名');
+		}
+		if(errorMsg.length>0)
+		{
+			alert(errorMsg.join("\n"));
+			return false;
+		}
+	});
+	$("form[name='education']").submit(function(){
+		var errorMsg = new Array();
+		if($(this)[0].school.value.length==0){
+			errorMsg.push('请填写您的学校名称');
+		}
+		if(errorMsg.length>0)
+		{
+			alert(errorMsg.join("\n"));
+			return false;
+		}
+	});	
+	$("form[name='add_career']").submit(function(){
+		var errorMsg = new Array();
+		if($(this)[0].company.value.length==0){
+			errorMsg.push('请填写您的公司名称');
+		}
+		if(errorMsg.length>0)
+		{
+			alert(errorMsg.join("\n"));
+			return false;
+		}
+	});	
+	$("form[name='add_additional_form']").submit(function(){
+		var errorMsg = new Array();
+		if($(this)[0].field_name.value.length==0){
+			errorMsg.push('请填写信息标题');
+		}
+		if(errorMsg.length>0)
+		{
+			alert(errorMsg.join("\n"));
+			return false;
+		}
+	});		
+})
+//$('li.menuIndexClass').addClass('actived');
+//$('a.submenuEdit').addClass('actived');
+//-->
+</script>
+<!--<style type="text/css">-->
+<!--.nav ul li.gerenshezhi a { -->
+	<!--background:#fff; -->
+	<!--color:#90c044; -->
+	<!-- -webkit-border-radius:5px 5px 0 0; -->
+	<!-- -moz-border-radius:5px 5px 0 0; -->
+	<!--border-radius:5px 5px 0 0; -->
+<!--}-->
+<!--.form-table span {margin:0 20px;}-->
+<!--.content {padding-bottom: 10px;}-->
+<!--</style>-->
+
+<script src="/static/js/cities2.js" type="text/javascript"></script>
+<div class="content">
+	<div class="container">
+		<div><span style="color:#90c044;">{$_SESSION['name']}的个人信息</span></div>
+		<div class="personal-info">
+			<div class="personal-tx">
+				<span><img src="{$_SESSION['icon']}" width="150" height="150" class="picture"></span>
+
+                <form action="{:url('/user/Upload_img')}" method="post"  enctype='multipart/form-data' >
+                    <input type="file" name="icon" id="path">
+                    <button id="upload_img">上传</button>
+                </form>
+
+            </div>
+			<form action="{:url('/user/Set_UserInfo')}" method="post">
+			<div class="personal-set">
+				
+          			<table border="0" cellspacing="0" cellpadding="0" class="form-table">
+
+            			<tr>
+              				<th><label for="nickname">昵称：</label></th>
+              				<td><input id="nickname" name="name" value="{$_SESSION['name']}" type="text" class="mid-textfield" readonly></td>
+           	 			</tr>
+            			<tr>
+              				<th><label >性别：</label></th>
+              				<td>
+              					<input name="sex"  type="radio" value="1" /> &nbsp;&nbsp;男
+              					<input name="sex"  type="radio" value="0" /> &nbsp;&nbsp; 女
+	       						<input name="sex"  type="radio" value="2" /> &nbsp;&nbsp;保密
+	 						</td>
+            			</tr>
+            			<tr>
+              				<th><label for="birth">生日：</label></th>
+              				<td>
+              					<input id="birth" name="birthday_year" type="text" value="1970" class="short-textfield">&nbsp;年&nbsp;&nbsp;
+              					<input id="birth" name="birthday_month" type="text" value="1" class="short-textfield">&nbsp;月&nbsp;&nbsp;
+              					<input id="birth" name="birthday_day" type="text" value="1" class="short-textfield">&nbsp;日&nbsp;&nbsp;
+              				</td>
+           				</tr>
+           				<tr>
+              				<th><label for="constellation">星座：</label></th>
+              				<td>
+              					<select name="constellation" id="constellation" style="width:100px;">
+							    	<option value=""> </option>
+							    	<option value="白羊座">白羊座</option>
+<option value="金牛座">金牛座</option>
+<option value="双子座">双子座</option>
+<option value="巨蟹座">巨蟹座</option>
+<option value="狮子座">狮子座</option>
+<option value="处女座">处女座</option>
+<option value="天秤座">天秤座</option>
+<option value="天蝎座">天蝎座</option>
+<option value="射手座">射手座</option>
+<option value="魔羯座">魔羯座</option>
+<option value="水瓶座">水瓶座</option>
+<option value="双鱼座">双鱼座</option>
+							    </select>
+              				</td>
+            			</tr>
+            			<tr>
+              				<th><label for="blood-tyoe">血型：</label></th>
+              				<td>
+              					<select name="blood" id="select" style="width:70px;">
+							    	<option value=""> </option>
+							    	<option value="A型">A型</option>
+<option value="B型">B型</option>
+<option value="AB型">AB型</option>
+<option value="O型">O型</option>
+							    </select>
+              				</td>
+            			</tr>
+           				<tr>
+              				<th><label for="location">所在地：</label></th>
+              				<td>
+              					<select name="live_province" id="live_province" style="width:70px;" onchange="ProvinceCity.setCityOptions('live_city',this.options[this.selectedIndex].text);">
+						        </select>
+						        <select name="live_city" id="live_city" style="width:70px;">
+						        </select>
+						    </td>
+            			</tr>
+
+            			<tr>
+              				<th><label for="header-customize">个人简介：</label></th>
+              				<td><textarea id="header-customize" name="intro" cols="" rows=""></textarea></td>
+           					</tr>
+           			</table>
+				</div>
+			<div align="center"><input name="submit" type="submit" value="保存设置" class="pie normal-button"></div>
+			</form>
+
+		</div>
+		
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+ProvinceCity.setProvinceOptions('live_province',"");
+ProvinceCity.setCityOptions('live_city',"","");
+    </script>	
+    
+		<script type="text/javascript" src="other/.com/msg_count"></script>
+	<script type="text/javascript">
+	$('body').click(function(e){
+	if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+	$('.pub_dropmenu').slideUp('fast');
+	}
+	});
+	</script>
+
+<!--头像无刷新加载-->
+<!--<script>-->
+    <!--$(function(){-->
+        <!--$('#upload_img').click(function(){-->
+
+            <!--$.ajax({-->
+                <!--type: 'post',-->
+				<!--url: '/user/Upload_img',-->
+                <!--dataType: 'json',-->
+                <!--success: function (data){-->
+                    <!--alert('成功');-->
+                    <!--$(".picture").attr("src", data);-->
+                <!--},-->
+                <!--error: function (){-->
+                    <!--alert('操作失败');-->
+                <!--}-->
+
+			<!--});-->
+        <!--})-->
+    <!--})-->
+<!--</script>-->
+
+{/block}
+

@@ -1,0 +1,110 @@
+{extend name="blog/index"}
+{block name="main"}
+   
+
+<script type="text/javascript">
+$('a.submenuSetting').addClass('actived');
+</script>
+<style type="text/css">
+.nav ul li.shezhi a { 
+  background:#fff; 
+  color:#90c044; 
+  -webkit-border-radius:5px 5px 0 0; 
+  -moz-border-radius:5px 5px 0 0; 
+  border-radius:5px 5px 0 0; 
+}
+</style>
+<div class="container">
+      <div class="content">
+        <div class="current-blog"> <span class="subCurrent">
+	<div style='float:left'>
+	当前博客：<a title="在新窗口中查看：蒂法 (http://queentifa.blogbus.com" class="pub_blogName01" target="_blank" href="http://queentifa.blogbus.com">{$_SESSION['name']}</a>
+	</div>
+	<div style='float:left;margin-left:10px'>
+		<a id="switch_blog" onclick="toggleMenu('#dm_changeBlog')" title="切换当前博客" class="pub_subLink" href="javascript:void(0)">[切换博客]</a>
+		<ul style="display: none;" class="pub_dropmenu change_blog" id="dm_changeBlog">
+			
+			<li><a onclick="hideMenu('#dm_changeBlog');return false;" href="/7234306/settings/basic">
+				蒂法</a></li>
+			
+		</ul>
+	</div>
+	<script type="text/javascript">
+	function toggleMenu(selector){
+		$(selector).slideToggle('fast');
+	}
+	</script>
+</span>
+</div>
+       		<div class="blog-submenus">
+	<a href="/7234306/settings/basic" rel="basic">基础设置</a> | 
+	<a href="/7234306/settings/habit" rel="habit">习惯设置</a> | 
+	<a href="/7234306/autolinks" rel="autolink">自动链接</a> | 
+	<a href="/7234306/utility/import" rel="import">导入导出</a> | 
+	<a href="/7234306/user_blog/authors"  rel="author">作者管理</a> | 
+	<a href="/7234306/archives/items" rel="archives">存档管理</a>
+</div>
+<script language="javascript">
+    $(".blog-submenus > a[rel='basic']").addClass("actived"); 
+</script>
+        <div class="pub-topline">
+        <form name="form1" method="post" action="/blog/editBlogName" >
+          <table border="0" cellspacing="0" cellpadding="0" class="form-table">
+            <tr>
+              <th width="110">博客地址：</th>
+              <td width="560">{$list['domain']}.blogcloud.com</td>
+            </tr>
+            <tr>
+              <th id='blog_name'><label for="blog-name">博客名称：</label></th>
+		 <td>
+                            <input id="blog-name" name="name" type="text" class="textfield" value="{$list['name']}">
+                            </td>
+            </tr>
+            <tr>
+              <th><label for="blog-description">博客简介：</label></th>
+              <td><textarea id="blog-description" name="description">{$list['intro']}</textarea></td>
+            </tr>
+            <tr>
+              <th><label for="blog-password">访问密码：</label></th>
+              <td><input id="blog-password" name="accessPwd" type="password" class="textfield password" value="{$list['pwd']}"> <span>留空则无访问密码</span></td>
+           </tr>
+    
+           </table>
+          <div align="center">
+          	<input name="" type="submit" value="保存设置" class="pie normal-button">
+          	 <input name="REQUEST_METHOD" value="PUT" type="hidden" />          </div>
+        </form>
+        <script type="text/javascript">
+	 		
+	 		// (function checkinfo(){
+	 		// 	$.ajax(function(){
+	 		// 		type : 'get',
+	 		// 		url:'/blog/showBlogName',
+	 		// 		dataType:'json',
+	 		// 		success:function(data){
+	 		// 			if (data.status) {
+	 		// 				$('#blog_name').html('data.name');
+	 		// 			}
+	 		// 		}
+	 		// 	});
+	 		// })();
+	    </script>
+      </div>
+	</div>
+</div>
+		<script type="text/javascript" src="/static/other/.com/msg_count"></script>
+	<script type="text/javascript">
+	$('body').click(function(e){
+	if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+	$('.pub_dropmenu').slideUp('fast');
+	}
+	})
+	</script>
+	<!--main end--><!--
+	<footer class="footer">
+  			<div class="copyright">&copy; 2002 - 2017 BlogBus.com, All Rights Reserved. 博客大巴 版权所有
+  			  	<a href="javascript:void(0)" onclick="Picobox.showIFrameBox('反馈意见','http://home.blogbus.com/feedback?url=http%3A%2F%2Fblog.home.blogbus.com%2Fsettings%2Fbasic',{width:400,height:200});">反馈意见</a>
+  			</div>
+	</footer>
+	-->
+	{/block}

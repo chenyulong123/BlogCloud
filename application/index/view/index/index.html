@@ -1,0 +1,393 @@
+<!DOCTYPE html >
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+
+
+<title>{$title}</title>
+<meta name="description" content="博客云是国内第一家博客托管服务商，也是首家商业运作、提供收费服务的中文博客网站，在中文博客业内享有盛誉">
+<meta name="keywords"
+      content="博客中国,中国博客,我的博客,私人日志,博客大巴,图片博客,社会热点,观点,生活,旅行,影像,自由,表达,城客,记录,分享,看法自由报,新媒体,博客研究,播客,BSP,个人门户,免费博客,空间,博客申请,中文博客,Blog,Blogger,网络日志,自媒体,社交网络,小清新,文艺范儿"/>
+
+
+<link href="/static/css/index/boilerplate.css" rel="stylesheet" type="text/css">
+
+
+<link href="/static/css/index/base.css" rel="stylesheet" type="text/css">
+<link href="/static/css/index/boilerplate.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+
+<script type="text/javascript" src="/static/js/m.js"></script>
+
+
+<!--[if lt IE 9]>
+
+<script src="/static/js/html5.js"></script>
+
+<script type="text/javascript" src="/static/js/selectivizr-min.js"></script>
+
+<![endif]-->
+
+<!--[if lt IE 7]>
+
+<script src="/static/js/minmax.js"></script>
+
+<![endif]-->
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <header class="header">
+
+        <div class="header-inner pie">
+
+            <div class="header-top pie">
+
+                <div class="container">
+
+                    <h1 class="logo pie"><a href="#" title="博客云 &ndash; 个人传媒早班车">博客云 &ndash; 个人传媒早班车</a></h1>
+
+                    <nav class="top-nav">
+
+                        <ul>
+    {if condition="($_SESSION['name'] neq '游客') and ($_SESSION['name'] neq NULL)"}
+    <li class="log" id='header_login_username'>{$_SESSION['name']}</li>
+    <li class="log"><a rel="external nofollow" href="{:url('/user')}">管理</a></li>
+    <li class="log"><a rel="external nofollow" href="{:url('/index/Log_out')}">退出</a></li>
+    {else/}
+
+    <li class=""><a href="{:url('/index/login')}" rel="external nofollow">登录</a></li><li class=""><a href="{:url('/index/register')}">注册</a></li>
+    {/if}
+                            <li><a href="{:url('/vip/index')}" rel="external nofollow">VIP</a></li>
+
+                            <li><a href="{:url('/UserInfo/API_interface')}" rel="external nofollow" target="_blank">美女图片</a></li>
+
+                            <li><a href="#" target="_blank">帮助</a></li>
+
+                        </ul>
+
+                    </nav>
+
+                </div>
+
+            </div>
+
+            <div class="site-nav-container pie">
+
+                <div class="container">
+
+                    <nav class="site-nav">
+
+                        <ul>
+                            <?php foreach($column as $a):?>
+                            <li class='shouye'><a href="{:url('/index')}" class="pie"><?= $a['category_name']?></a></li>
+                            <?php endforeach;?>
+
+                        </ul>
+
+                    </nav>
+
+                    <nav class="utility-menus">
+
+                        <ul>
+
+                            <li class="active"><span class="explore"><a rel="external nofollow" href="{:url('/blog/index')}" id="user_blog"
+                                                                        class="pie">个人博客</a></span></li>
+
+                            <li><span class="post"><a rel="external nofollow" href="{:url('/blog/newblog')}" target='_blank'
+                                                      class="pie">发布</a></span></li>
+
+                            <li><span class="settings"><a rel="external nofollow" href="#" class="pie">设置</a></span>
+                            </li>
+
+                        </ul>
+
+                    </nav>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <div class="sub-nav-container">
+
+        <div class="container w1180">
+
+            <nav class="sub-nav">
+
+                <ul>
+                    <?php foreach($t_column as $val):?>
+                    <li class="tag0"><a href="{:url('/index')}"><?= $val['category_name']?> </a></li>
+                    <?php endforeach;?>
+                </ul>
+
+            </nav>
+
+            <div class="search">
+                <form action="{:url('/index/Index_Search')}">
+                <div class="search_left">
+                    <input id='search_input' name='keyword'/>
+                </div>
+                <div class="search_right">
+                    <input type="submit" value="搜索">
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {block name="main"}
+    <div id="wrapper">
+
+        <link href="/static/css/respond.css" rel="stylesheet" type="text/css">
+
+        <link href="/static/css/infinitescroll.css" rel="stylesheet" type="text/css">
+
+        <script src="/static/js/respond.min.js"></script>
+
+        <script type="text/javascript" src="/static/js/jquery.masonry.js"></script>
+
+        <script type="text/javascript" src="/static/js/jquery.infinitescroll.js"></script>
+
+        <script>
+            function item_masonry() {
+                var $container = $('.stream');
+                $container.imagesLoaded(function () {
+                    $container.masonry({
+                        itemSelector: '.item'
+                    });
+                });
+            }
+            $(function () {
+                var perpage = 10;
+                item_masonry();
+                var sp = 1;
+                $(".stream").infinitescroll({
+                    navSelector: "#more",
+                    nextSelector: "#more a",
+                    itemSelector: ".item",
+                    debug: true,
+                    extraScrollPx: 50,
+                    animate: false,
+                    loading: {
+                        img: "",
+//                        http://q.blogbus.com/bbc-v6/front/img/masonry_loading_1.gif
+                        msgText: ' ',
+                        finishedMsg: '',
+                        finished: function () {
+                            sp++;
+                            if (sp >= perpage) { //到第10页结束事件
+                                $("#more").remove();
+                                $("#infscr-loading").hide();
+                                $("#pages").show();
+                                $(window).unbind('.infscr');
+                            }
+                        }
+                    }, errorCallback: function () {
+                        $("#pages").show();
+                    }
+
+                }, function (newElements) {
+                    var $newElems = $(newElements);
+                    $('.stream').masonry('appended', $newElems, false);
+                    $newElems.fadeIn();
+                    item_masonry();
+                    return;
+                });
+            });
+        </script>
+
+
+        <div class="content">
+            <div class="container stream" id="modellist">
+
+
+                <!-- 瀑布流开始 -->
+
+                <?php foreach($data as $value):?>
+                <div class="item pie" id="falls">
+                    <div class="article">
+                        <a href="{:url('/index/Article_List?au_id='.$value['id'])}"  title="<?php echo $value['name'];?>" target="_blank">
+                            <img alt='丝绸之路之旅（2）' src="<?php echo $value['name'];?>" width="190"></a>
+                        <h4><a title="<?php echo $value['name'];?>" target='_blank' title='丝绸之路之旅（2）' href="{:url('/index/Article_List?au_id='.$value['id'])}"><?php echo $value['username']?>的个人博客</a>
+                        </h4>
+                    </div>
+
+
+                    <div class="credits">
+                        <a target='_blank' class="avatar" rel="external nofollow" href="#"><img alt="" src="<?php echo $value['icon']?>" width="30"></a>
+                        <a target='_blank' class="author" rel="external nofollow" href=""><?php echo $value['username']?></a>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <?php endforeach;?>
+
+                <!-- 瀑布流结束 -->
+
+
+            </div>
+        </div>
+
+
+        <div style="display:none;">
+
+        </div>
+    </div>
+
+<!--分页-->
+    <div style="text-align: center;font-size: 17px">
+       <?php echo $pagelist;?>
+    </div>
+<!--分页结束-->
+
+</div>
+{/block}
+
+
+
+<div id="footer" class="footer">
+
+    <div class="utilityMenu">
+
+        <a target="_blank" rel="external nofollow" href="#">媒体报道</a>&nbsp;|&nbsp;
+
+        <a target="_blank" href="#">关于我们</a>&nbsp;|&nbsp;
+
+        <a target="_blank" href="#">工作机会</a>&nbsp;|
+
+        &nbsp;<a target="_blank" href="#">相关法律</a>&nbsp;|
+
+        &nbsp;<a target="_blank" href="#">广告服务</a>&nbsp;|
+
+        &nbsp;<a target="_blank" rel="external nofollow" href="#">申请博客</a>&nbsp;|&nbsp;
+
+        <a target="_blank" href="#">网站地图</a>&nbsp;|&nbsp;<a target="_blank" href="#">合作伙伴</a>
+
+    </div>
+
+    <div class="copyright">&copy; 2002-2017 BlogBus.com, All Rights Reserved. 博客大巴 版权所有 沪ICP备05008275号-1</div>
+
+    <div style="width:300px;margin:0 auto; padding:20px 0;">
+
+        <a target="_blank" href="#"
+           style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+                src="/static/images/ba.png"
+                style="float:left;"/>
+            <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">沪公网安备
+                31011202001260号</p></a>
+
+    </div>
+
+</div>
+
+<div id="gotop" class='pie' title='回到顶部'>
+
+    <div id="arrow"><img src="/static/images/arrow.png"></div>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(document).scroll(function () {
+            if ($(document).scrollTop() < 200) {
+                $('#gotop').fadeOut('normal');
+            } else {
+                $('#gotop').fadeIn('normal');
+            }
+            $('#arrow').click(function () {
+                $(document).scrollTop(0);
+            })
+        });
+
+    })
+</script>
+<script>
+    $(function(){
+        $('#search').click(function (){
+            var keyword = $("#search_input").val();
+            console.log(keyword);
+            if (keyword == '') {
+                alert("请输入关键词");
+                return false;
+            } else {
+                $.ajax({
+                    type: 'get',
+                    url: '/index/Index_Search?keyword=' + keyword,
+                    dataType: 'json',
+                    success: function (data){
+                        console.log(data);
+                    },
+                    error: function (){
+                        alert('找不到该作者');
+                    }
+                })
+            }
+        })
+    })
+
+
+<script language="javascript" type="text/javascript" src="//js.users.51.la/19224691.js"></script>
+<noscript><a href="//www.51.la/?19224691" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="//img.users.51.la/19224691.asp" style="border:none" /></a></noscript>
+<!-- 登录 -->
+
+<!--<script type="text/javascript">-->
+
+    <!--function load_Data(){-->
+        <!--// 创建一个script标签-->
+        <!--var script = document.createElement('script');-->
+        <!--// 设置src为 我们请求的那个地址-->
+        <!--script.src = "{:url('index/index/Login_Validate')}";-->
+        <!--// 添加script标签到页面中-->
+        <!--document.body.appendChild(script);-->
+    <!--}-->
+    <!--function login_info(u) {-->
+<!--//        u.user-->
+        <!--if (true) {-->
+
+            <!--$("#header_login_username").text(u.user);-->
+
+            <!--$("#login_username").text(u.user);-->
+
+            <!--$(".nologin").hide();-->
+
+            <!--$(".logged").show();-->
+
+            <!--if (u.domain) {-->
+
+                <!--var link = 'http://' + u.domain;-->
+
+                <!--$("#user_blog").attr('href', link);-->
+
+                <!--$("#user_blog").attr('target', '_blank');-->
+
+            <!--}-->
+
+        <!--} else {-->
+
+            <!--$(".nologin").show();-->
+
+            <!--$(".logged").hide();-->
+
+            <!--$("#user_blog").attr('href', 'http://blog.home.blogbus.com/posts/');-->
+
+
+<!--延时加载图片-->
+<!--延时图片加载结束-->
+
+
+<div style='display:none'>
+
+</div>
+</body>
+
+</html>
+

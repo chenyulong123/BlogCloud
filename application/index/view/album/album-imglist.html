@@ -1,0 +1,72 @@
+{extend name="album/album-mange"}
+
+{block name="album"}
+
+<script type="text/javascript" src="/static/js/swfupload.js"></script>
+<script type="text/javascript" src="/static/js/swfupload.queue.js"></script>
+<script type="text/javascript" src="/static/js/fileprogress.js"></script>
+<script type="text/javascript" src="/static/js/handlers.js"></script>
+<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
+
+<script type="text/javascript">
+
+    $('li.menuFileClass').addClass('actived');
+    $('a.submenuFileUpload').addClass('actived');
+</script>
+<style type="text/css">
+    .nav ul li.shangchuan a {
+        background:#fff;
+        color:#90c044;
+         -webkit-border-radius:5px 5px 0 0;
+         -moz-border-radius:5px 5px 0 0;
+        border-radius:5px 5px 0 0;
+    }
+    .content {padding-bottom:10px; }
+</style>
+<div class="content">
+    <div class="container">
+
+        <div class="savespace">
+<span class="total-space">
+			<span class="used" style='width:1%'></span></span>
+        <span style="color:#90c044;">0.04M/100M</span>
+        </div>
+        <br/>
+        <br/>
+        <!--MAIN-->
+        <table class="table table-hover">
+            <tr>
+                <th>ID</th>
+                <th>图片</th>
+                <th>删除</th>
+            </tr>
+            <?php foreach($list as $val):?>
+            <?php if($val['name'] == NULL):?>
+                    <tr>暂无数据</tr>
+            <?php else:?>
+            <tr>
+                <td><?php echo $val['id'];?></td>
+                <td><img src="<?php echo $val['name'];?>"  class="img-thumbnail" width="70"></td>
+                <td>
+                    <a class="btn btn-danger" href="{:url('/Album/Delete_Image?id='.$val['id'])}" role="button">删除</a>
+                </td>
+            </tr>
+            <?php endif;?>
+            <?php endforeach;?>
+
+
+
+
+        </table>
+        <!--MAIN END-->
+    </div>
+</div>
+<!-- 帮助 -->
+
+
+<script type="text/javascript">
+
+</script>
+
+{/block}
+

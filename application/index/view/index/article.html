@@ -1,0 +1,360 @@
+
+{extend name="index/index" /}
+{block name="main"}
+<!--头部-->
+
+
+
+<div id="wrapper">
+    <style type="text/css">
+        div.small {
+            font-size: 12px;
+        }
+        div.normal {
+            font-size: 14px;
+        }
+        div.big {
+            font-size: 16px;
+        }
+    </style>
+    <script type="text/javascript" src="/static/js/picobox.js"></script>
+    <script type="text/javascript" src="/static/js/picobox_beauty.js"></script>
+    <link rel="stylesheet" href="/static/css/picobox.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/picobox_beauty.css" type="text/css"/>
+    <script type="text/javascript" src="/static/js/page.js"></script>
+    <link href="/static/css/article.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/css/content.css" type="text/css"/>
+    <div class="mainContent">
+        <div class="column" id="detailWrapper">
+            <div id="detail" class="columnBody">
+                <div class="postHeader">
+
+
+                    <h2>{$list['title']}</h2>
+
+                    <h5>{$list['post_time']}</h5>
+
+
+                    <div class="menubar">
+                        <div class="info">
+                            作者：<a rel="external nofollow" href="#"
+
+                                  target="_blank">{$list['author']}</a>
+
+
+                            &nbsp;来源：<a href="#" target="_blank">豆子的天空</a>
+                            <br/>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="postBody">
+
+                        {$list['content']}
+                    <div class="clear"></div>
+
+                    <div class="tag"><strong>标签：</strong>
+                    
+                        <a href="">{$list['tags']}</a>
+
+
+
+                    </div>
+
+                    <div class="share_new">
+
+                        <!-- Baidu Button BEGIN -->
+
+                        <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+
+                            <span class="bds_more">分享到：</span><a class="bds_tsina"></a>
+
+                            <a class="bds_qzone"></a>
+
+                            <a class="bds_tqq"></a>
+
+                            <a class="bds_renren"></a>
+
+                            <a class="bds_t163"></a>
+
+                            <a class="shareCount"></a>
+                        </div>
+                        <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6785502"></script>
+
+                        <script type="text/javascript" id="bdshell_js"></script>
+
+                        <script type="text/javascript">
+
+                            document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date() / 3600000)
+
+                        </script>
+
+                        <!-- Baidu Button END -->
+
+                    </div>
+
+                    <div class="clear"></div>
+
+                </div>
+
+                <div class="postFooter">
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div id="comments" class="commentList">
+         评论|&nbsp;评论数<span style="color:#90c044">({if condition="$list['comment_count'] == 0"}0
+            {else /}{$list['comment_count']}
+            {/if})</span>
+            <button style="border:none" art_id="{$list['id']}" class="love_btn"><img src="/static/images/love.png" alt="点赞"></button>|
+            
+            点赞总数:<span id='zan' style="color:#90c044">{$list['love']}</span> |&nbsp;阅读<span style="color:#90c044">({if condition="$list['count'] == 0"}0
+            {else /}{$list['count']}
+            {/if})</span>| <button style="background-color:#90c044;color:#fff;border:none;width:50px;height:20px; "  ac_id="{$list['id']}" id="reprint" class="reprint">转载&nbsp;</button>
+            (<span id="count"  style="color:#90c044" class="reprint">{if condition="$list['count'] == 0"}0
+            {else /}{$list['rep_count']}
+            {/if}</span>)
+
+        </div>
+
+      <!--  
+        <div id="comment" class="commentList">
+            评论
+
+        </div>   --> 
+        <article>
+       <div class="pinglun  ">
+          
+           <div class="collapse">
+               <div class="well">
+                   <form action="/article/addcomment" method="post" role="form" >
+                       <div class="input-group">
+                           <input type="hidden" class="name1 input-group" name="author" value="{$_SESSION['name']}">
+                           <input type="hidden" class=" input-group" placeholder="" name="pid" value="0">
+                           <input type="hidden"  name="aid" value="{$list['id']}">
+                       </div>
+                       <div class="input-group">
+                           <textarea style="width:300px;border:2px solid #999" class="comment" id="content-text" name="comment" rows="3" placeholder="请输入评论内容"></textarea>
+                       </div>
+                       <br>
+                       <div class="input-group submit">
+                           <button style="background-color:#90c044;color:#fff;border:none;width:50px;height:30px; " class="submit-btn" type="submit" >发布</button>
+                       </div>
+                   </form>
+               </div>
+           </div>
+       </div>
+      
+        <div >
+
+
+                     
+                    
+                        {volist name="commentlist" id="vo"}
+                    <input type="hidden" name="pid" value="{$vo.author}"/>
+                        <eq name="vo.pid" value="0"><hr class="solidline"/><else/><hr class="dottedline"/></eq>
+                        <div class="commentList "  style="padding-left:{$vo['level']-1}cm">
+                            <div><span class="user">
+                                {if condition="($vo.pauthor) == null"}<span style="color:#90c044">{$vo.author}</span>
+                                {else /} <span style="color:#90c044">{$vo.author}</span><span class="black" style="color: #000101">回复</span><span style="color:#90c044">{$vo.pauthor}</span>
+                                {/if}
+                            </span><a class="hf" id="{$vo.id}" style="width:50px;height:30px;background-color:#90c044;color:#fff;float: right;margin-right:10px;text-align:center;line-height:30px">回复</a><span style="float:right;color:#90c044" class="hftime">{$vo.create_time}</span></div>
+                            <div class="content"><span style="margin-top:10px">{$vo.text}</span></div>
+
+                        </div>
+
+                   {/volist}
+              
+        </div>
+     
+
+        
+        </article>
+
+
+  </div>   
+    <div class="subContent">
+
+        <!--Tag图-->
+
+        <div id="tagCloud" class="module">
+            <div class="borderlineSt"></div>
+            <h3><strong>热门Tag</strong> <span class="more"><!-- <a href="#">更多</a> --></span></h3>
+            <ul>
+                <li><a href="/xingzhe/游记/">游记</a></li>
+                <li><a href="/xingzhe/旅游景点/">旅游景点</a></li>
+                <li><a href="/xingzhe/旅行/">旅行</a></li>
+                <li><a href="/xingzhe/城市/">城市</a></li>
+                <li><a href="/xingzhe/欧洲/">欧洲</a></li>
+                <li><a href="/xingzhe/出境/">出境</a></li>
+                <li><a href="/xingzhe/西藏/">西藏</a></li>
+                <li><a href="/xingzhe/大海/">大海</a></li>
+                <li><a href="/xingzhe/日本/">日本</a></li>
+                <li><a href="/xingzhe/云南/">云南</a></li>
+                <li><a href="/xingzhe/街头/">街头</a></li>
+                <li><a href="/xingzhe/浙江/">浙江</a></li>
+                <li><a href="/xingzhe/上海/">上海</a></li>
+                <li><a href="/xingzhe/古镇/">古镇</a></li>
+                <li><a href="/xingzhe/泰国/">泰国</a></li>
+                <li><a href="/xingzhe/旅游/">旅游</a></li>
+                <li><a href="/xingzhe/摄影/">摄影</a></li>
+                <li><a href="/xingzhe/厦门/">厦门</a></li>
+                <li><a href="/xingzhe/法国/">法国</a></li>
+                <li><a href="/xingzhe/名胜古迹/">名胜古迹</a></li>
+                <li><a href="/xingzhe/攻略/">攻略</a></li>
+                <li><a href="/xingzhe/香港/">香港</a></li>
+                <li><a href="/xingzhe/四川/">四川</a></li>
+                <li><a href="/xingzhe/福建/">福建</a></li>
+                <li><a href="/xingzhe/马来西亚/">马来西亚</a></li>
+            </ul>
+            <div class="borderlineSt"></div>
+        </div>
+        <!--精彩推荐-->
+
+        <div id="spotlight" class="module">
+
+            <h3 id="recommended"><strong>历史上的今天</strong></h3>
+
+            <div class="featured">
+
+                <div class>
+
+                    {foreach $json as $new}
+                   <p style="color:#78BC27;margin-left:0">{$new['title']}</p>
+                   <p style="color:#78BC27">{$new['lsdate']}</p>
+
+
+                    {/foreach}
+
+                </div>
+
+                <div class="clear"></div>
+
+            </div>
+
+
+
+        </div>   
+     
+        <!--看法电子报-->
+
+        <div id="viewpoint" class="module">
+
+            <div class="borderlineSt"></div>
+
+            <h3><strong>看法电子报</strong></h3>
+
+            <div class="featured"><a rel="external nofollow" href="#"
+                                     target="_blank"><img
+
+                    src="/static/images/相亲2.jpg" alt="给我一个相亲的理由"/></a></div>
+
+            <div class="info">
+
+                <h5><a rel="external nofollow" href="#" target="_blank">给我一个相亲的理由</a>
+                </h5>
+
+
+                在经历最初的期望与失望之后我就不再对通过相亲找到另一半抱有多大的幻想，久而久之变成一种痛并麻木着的应酬。
+
+                <div class="readmore"><a rel="external nofollow" href="#"
+                                         target="_blank">阅读更多&raquo;</a></div>
+
+            </div>
+
+            <div class="clear"></div>
+
+            <ul>
+
+                <li><a rel="external nofollow" href="#"
+                       target="_blank">花样过年记</a> [编辑：暖]
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="clear"></div>
+
+
+        <div style="display:none;">
+
+            <img src="other/.cn/htracker/pid=2444/media=blogbus/place=17bbpd/size=250x280"/>
+
+        </div>
+    </div>
+</div>
+<script>
+//评论
+//
+$('.hf').click(function(e){
+    var $this = $(this);
+    var parentid = $this.attr('id');
+    console.log(parentid);
+    console.log($this.parent().parent());
+    if ($this.parent().parent().next().hasClass('hftext')) {
+        $this.parent().parent().next().remove();
+    }else{
+        $this.parent().parent().after('<div class="hftext"><form action="/article/addcomment" method="post" role="form" > <input name="aid" type="hidden"  value="{$list.id}" />  <input name="author" type="hidden"  value="{$_SESSION.name}" /><input id="pid" type="hidden" name="pid" value="{$vo.id}""> <div class="input-group">  <textarea style="display: inline" style="width:300px;border:2px solid #999" class="input-group comment" id="content-text2" name="comment" rows="3" placeholder="请输入评论内容"></textarea>  </div><div class="submit">  <input style="background-color:#90c044;color:#fff;border:none;width:50px;height:30px; " "  class="submit-btn" type="submit" value="提交"></div> </form></div>');
+            var v_id = $(e.target).attr('id');//获取元素id;
+             $("#pid").val(v_id);
+    }
+
+
+});
+
+    
+
+
+
+
+$(function(){
+    $(".love_btn").click(function(){
+        var id = $(this).attr('art_id');//对应文章id
+        $.ajax({
+            type : 'get',
+            url : '/article/love',
+            data:{'id':id},
+            dataType:'json',
+            success:function(data){
+                if (data.status) {
+                    $('#zan').text('');
+                   $('#zan').text(data.count) ;
+                    alert('感谢您的赞');
+                }else{
+                    alert('您已经赞过啦');
+                }
+
+            }
+        });
+    })
+})
+
+//转载
+$('#reprint').click(function(){
+    var id = $(this).attr('ac_id');//对应文章id
+    $.ajax({
+        type:'get',
+        url : '/blog/reprint/'+id,
+        dataType:'json',
+        success:function(data){
+            var span = document.getElementById('count');
+            if (data.status) {
+               span.innerHTML= data.count;
+               console.log(data.count);
+                alert(data.msg);
+            }
+        }
+        
+    });
+});
+
+
+</script>
+
+
+{/block}
+

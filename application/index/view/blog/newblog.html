@@ -1,0 +1,312 @@
+{extend name="blog/index"}
+{block name="main"}
+<script type="text/javascript">
+$('a.submenuNewPost').addClass('actived');
+</script>
+<script type="text/javascript" src="/static/js/tiny_mce.js"></script>
+<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+
+
+
+
+<div class="container">
+	<div class="content">
+	<form method="post" action="{:url('index/blog/addArt')}" name="content" class="form-inline" onsubmit="return check()">
+    <div id="pub_main" class='new_post'>
+      <div id="postWrite">
+        <div class="postWrite_r1">
+          <div class="postWrite_title">
+            <label>标题：</label>
+            <input name="title" id='post_title'  type="text" style="width:410px;" class="text" value=""/>
+          </div>
+          <div class="postWrite_time">
+            <label>时间：</label>
+			<input type="hidden" id="post_time" name="post_time" value="{:date('Y-m-d H:i:s')}" />
+            <span class="postWrite_currentDate"></span>&nbsp;<span class="postWrite_currentTime"></span>
+			<span class="postWrite_time_edit pub_dropmenuP"><a href="javascript:void(0)" onclick="$('#dm_postWrite_time_edit').slideToggle('fast');return false;"><img class="pub_subLink" src="/static/images/icon_pencil_s.gif" width="16" height="16" alt="修改" /></a>
+	            <div id="dm_postWrite_time_edit" class="dm_postWrite_time_edit pub_dropmenu" style="display:none;">
+	              <p class="info">修改日志发布时间</p>
+	              <p>
+	                <input type="text" style="width:75px;" class="text" id="txtDate" />
+	                <input type="text" style="width:45px;margin-top:5px" class="text" id="txtTime" />
+	              </p>
+	              <div>
+	                <input type="button" value="确定" id="postDateOk" class="button" />
+	                <input type="button" value="取消" id="postDateCancel" class="button" />
+	              </div>
+	            </div>
+					</span>
+             </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="postWrite_r2 cb">
+          <div class="postWrite_content bgGray">
+       
+            <div class="postWrite_content_">
+               <textarea id="mycontent" name="content"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="postWrite_r3 cb">
+          <div class="postWrite_cate">
+
+            <label>分类：</label>
+            <select name="category" id="category">  
+        	</select>  
+          </div>
+          <div class="postWrite_tag pub_dropmenuP">
+            <label>标签：</label>
+            <input name="tags" id="tags" type="text" style="width:300px;" o class="text pub_subLink"
+	   value="" />
+	
+	   
+	  
+          <div class="clearfix"></div>
+        </div>
+
+         <div class="postWrite_option">
+         		<input type="hidden"  name="author">
+         		<input type="hidden" name="type" value="1">
+                <input type="checkbox" value="1" name="always_top" id="chk_always_top">
+                <label for="chk_always_top">日志置顶</label>
+		 		<input type="checkbox" value="1" name="allow_recommend" id="chk_allow_recommend">
+                <label for="chk_allow_recommend">推荐到首页</label>
+                <input type="checkbox" value="1" name="allow_comment" id="chk_allow_comment">
+                <label for="chk_allow_comment">允许评论</label>
+                <input type="checkbox" value="1" id="chk_allow_trackback" name="allow_trackback">
+                <label for="chk_allow_trackback">允许引用</label>
+             
+              </div>   
+
+
+        <div class="postWrite_r6">
+          <div class=" wmp_button">
+				<input name="force" value="0" type="hidden" /> 
+				<input type="submit" value="发布日志"  id="btn_sub" class='button' style='float:left;margin-top:4px'>
+
+            	<input type="button" value="保存草稿" id="btn_draft" class='button' style='float:left'>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        </div>
+        </div>
+	</form>
+    <!--main end-->
+	</div>
+</div>
+  
+<div id="addNewCat" style="display:none">
+<table border="0" cellpadding="0" cellspacing="0" class="popup_edit" >
+  <tr>
+    <th class="height30">新分类名称：</th>
+    <td><input name="name" type="text" style="width:200px;" id="new_sort_name" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><div  class="buttoncenter">
+<input type="button"  class="button" value="添加分类" onclick="addSort($('#picobox #new_sort_name').val());Picobox.hide()" /><input type="button" onclick="Picobox.hide()"  class="button" value="取消" />
+</div></td>
+  </tr>
+</table>
+</div>
+  <script type="text/javascript">
+    CKEDITOR.replace( 'mycontent' ,{ //这里的 mycontent就是上面我们设置的textarea或者input元素的id
+        filebrowserBrowseUrl:'/static/ckfinder/ckfinder.html',//设置上传图片的页面为ckfinder.html
+        filebrowserImageBrowseUrl:'/static/ckfinder/ckfinder.html?type=Images',
+        filebrowserFlashBrowseUrl: '/static/ckfinder/ckfinder.html?type=Flash',
+        filebrowserUploadUrl: '/static/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+        filebrowserImageUploadUrl: '/static/upload',
+        filebrowserFlashUploadUrl: '/static/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
+        width:900,//设置默认宽度为900px
+        height:300  //设置默认高度是300px，这个高度是不包含顶部菜单的高度
+        }
+    );
+</script>
+<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
+<script type="text/javascript">
+function check(){
+	if(document.getElementById('post_title').value=='') {
+		alert('您还没有填写标题');return false;
+	}
+
+	if(document.getElementById('category').value=='') {
+		alert('您还没有选择分类');return false;
+	}
+	if(document.getElementById('tags').value=='') {
+		alert('您还没有填写标签');return false;
+	}
+		return true;
+}
+function checktitle(){
+	 if(document.getElementById('post_title').value=='') {
+	 	alert('您还没有填写标题'); return;
+	 }else{
+	 	return true; 	
+	 }
+}
+//获取分类下拉菜单内容
+$("#category").click(function(){
+	$.ajax({
+		type:'get',
+		url:'/blog/showcategory',
+		dataType:'json',
+		success:function(data){
+			//category.add(new Option('请选择' , ''));
+				for (var i = 0; i < data.length; i++) {
+					var opts = category.getElementsByTagName('option');		
+					if (opts.length > data.length-1) {
+						return;} else{
+							category.add(new Option(data[i].category_name , data[i].category_name));
+						}					
+				}		    			
+		}
+	});
+});
+
+function updatePostDate() {
+	var arr_datetime = $('#post_time').val().split(/[ ]+/);
+	$('#txtDate').val(arr_datetime[0]);
+	$('#txtTime').val(arr_datetime[1]);
+	$('span.postWrite_currentDate').text(arr_datetime[0]);
+	$('span.postWrite_currentTime').text(arr_datetime[1]);
+}
+updatePostDate();
+$('#postDateOk').click(function(){
+	var datetime = $.trim($('#txtDate').val()+' '+$('#txtTime').val());
+	$('#post_time').val(datetime);
+	updatePostDate();
+	$('#dm_postWrite_time_edit').slideUp('fast');
+});
+$('#postDateCancel').click(function(){
+	$('#dm_postWrite_time_edit').slideUp('fast');
+	updatePostDate();
+});  
+var edit_form = document.EditorForm;
+var visi_names = {'public':'公开','hidden':'隐藏','password':'加密'}
+$('#visi_ok').click(function () {
+	var value = $(edit_form).find('.postWrite_private input:radio:checked').val();
+	edit_form.visi_opt.value = value;
+	$(edit_form).find('span.postWrite_pri_statu').text(visi_names[value]);
+	if (value == 'hidden') {
+		$('#chk_always_top').attr('checked', false).attr('disabled', true);
+	} else {
+		$('#chk_always_top').attr('disabled', false);
+	}
+	$('#dm_postWrite_pri_edit').slideUp('fast');
+});
+$('#visi_cancel').click(function () {
+	var value = edit_form.visi_opt.value;
+	$('#dm_postWrite_pri_edit').slideUp('fast');
+	$(edit_form).find('.postWrite_private input:radio').each(function(){
+	if (this.value==value){
+		this.checked=true;
+	}
+	});
+	if (value == 'hidden') {
+		$('#chk_always_top').attr('checked', false).attr('disabled', true);
+	} else {
+		$('#chk_always_top').attr('disabled', false);
+	}
+	$(edit_form).find('span.postWrite_pri_statu').text(visi_names[value]);
+});
+$('#visi_cancel').click();
+$('select[name=sort_id]').val();
+//$('input[name=tags]').click(function(){$('#dm_postWrite_tag').slideDown('fast');return false;});
+function hint(input, str) {
+	var n_hint = $('<div></div>').css({
+		'position': 'absolute',
+		'left':input.offsetLeft,
+		'top':input.offsetTop,
+		'height':input.offsetHeight,
+		'width':input.offsetWidth,
+		'paddingLeft':'0.5em',
+		'color':'#999',
+		'zIndex':-1
+	}).text(str).click(function(){$(input).focus().click();return false;});
+	$(input).parent().css('position', 'relative').append(n_hint);
+	var _hint=function(o){
+		var v=o.value?o.value:this.value;
+		if (v=='' || v==undefined){
+			n_hint.css('visibility','visible');
+		} else {
+			n_hint.css('visibility','hidden');
+		}
+	};
+	$(input).css({'backgroundColor':'transparent','zIndex':1}).focus(function(){n_hint.css('visibility','hidden');}).blur(_hint).change(_hint);
+	_hint(input);
+}
+
+$('#chk_allow_comment').attr('checked', true);
+$('#chk_allow_trackback').attr('checked', true);
+$('#chk_allow_auto_link').attr('checked', true);
+//
+//if (_draftid != 0 && edit_form.ID.value != 0) {
+//	$('#autosavemsg').html('此篇日志已保存在草稿，<a href="javascript: recovery('+ _draftid +')">点击导入</a>');
+//}
+$('#postWrite_advanced div.postWrite_advanced_title').click(function(){
+	$('.postWrite_advanced_content').slideToggle('fast', function(){
+	$.cookie('bus.editor.showAdv', $('.postWrite_advanced_content').css('display'), {path:'/',expires:365});
+	});
+});
+$('.postWrite_advanced_content').css('display', $.cookie('bus.editor.showAdv')||'none');
+$(edit_form).submit(function(){return false;});
+function post() {
+// if(document.getElementById('post_title').value=='') {alert('您还没有填写标题'); return;}
+
+$('#btn_pub').attr('disabled', true);
+$('#btn_pub').removeClass('button');
+$('#btn_pub').addClass('button_submit');
+$('#btn_pub').val('正在发布');
+edit_form.content.value=tinyMCE.editors.content.getContent();
+edit_form.excerpt.value=tinyMCE.editors.excerpt.getContent();
+var data = $(edit_form).serialize();
+$.ajax({
+'url':edit_form.action,'data':data,'type':'POST','dataType':'json',
+'complete':function(ret){
+	 $('#btn_pub').attr('disabled', false);
+	$('#btn_pub').removeClass('button_submit');
+        $('#btn_pub').addClass('button');
+	$('#btn_pub').val('发布日志');
+},
+'success':function(ret){
+	if (ret.success) {
+		window.location.href = 'tp5.com';
+		return;
+	} else if(ret.failure.bad) {
+			if (confirm("您提交的日志中存在敏感词汇("+ret.failure.bad_content+")，若您确定发布，该日志将被暂时锁定，审核通过后即可正常显示，请耐心等待。您也可选择“取消”，修改或去除敏感词汇后再提交。\n为了维护博客大巴网络和谐，请避免涉及政治或低俗内容，感谢配合。")) {	
+			edit_form.force.value = 1;
+			post();
+		}
+	} else if (ret.failure.message) {
+                alert(ret.failure.message);
+	}
+},
+'error':function(xhr, status){
+	var ret=(new Function('return '+xhr.responseText))();
+	if (ret.failure.message){
+		alert(ret.failure.message);
+	}
+	$('#btn_pub').attr('disabled', false);
+}
+});
+}
+$('#btn_pub').click(post);
+var draft_id=0;
+
+$('#btn_draft').click(draft);
+setInterval(draft, 60000*5);
+$(document).unload(function(){
+});
+$('#newCate').click(function(){
+	Picobox.showDOMBox('创建分类','#addNewCat',{width:630,height:520});
+	return false;
+});
+</script>
+		<script type="text/javascript" src="other/.com/msg_count"></script>
+	<script type="text/javascript">
+	$('body').click(function(e){
+	if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+	$('.pub_dropmenu').slideUp('fast');
+	}
+	})
+	</script>
+    {/block}

@@ -1,0 +1,666 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+
+<title>{$title}</title>
+
+<meta name="description" content="博客云是国内第一家博客托管服务商，也是首家商业运作、提供收费服务的中文博客网站，在中文博客业内享有盛誉">
+
+<meta name="keywords"
+      content="博客中国,中国博客,我的博客,私人日志,博客大巴,图片博客,社会热点,观点,生活,旅行,影像,自由,表达,城客,记录,分享,看法自由报,新媒体,博客研究,播客,BSP,个人门户,免费博客,空间,博客申请,中文博客,Blog,Blogger,网络日志,自媒体,社交网络,小清新,文艺范儿"/>
+
+
+<link href="/static/css/index/boilerplate.css" rel="stylesheet" type="text/css">
+
+<link href="/static/css/index/base.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+
+<script type="text/javascript" src="/static/js/m.js"></script>
+
+<link rel="shortcut icon" href="">
+
+<!--[if lt IE 9]>
+
+<script src="/static/js/html5.js"></script>
+
+<script type="text/javascript" src="/static/js/selectivizr-min.js"></script>
+
+<![endif]-->
+
+<!--[if lt IE 7]>
+
+<script src="/static/js/minmax.js"></script>
+
+<![endif]-->
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <header class="header">
+
+        <div class="header-inner pie">
+
+            <div class="header-top pie">
+
+                <div class="container">
+                    <h1 style="font-size:35px;color:#90c044" >用户{$list['author']}的博客</h1>
+
+                    <nav class="top-nav">
+
+                        <ul>
+    {if condition="($_SESSION['name'] neq '游客') and ($_SESSION['name'] neq NULL)"}
+    <li class="log" id='header_login_username'>{$_SESSION['name']}</li>
+    <li class="log"><a rel="external nofollow" href="{:url('/user')}">管理</a></li>
+    <li class="log"><a rel="external nofollow" href="{:url('/index/Log_out')}">退出</a></li>
+    {else/}
+
+    <li class=""><a href="{:url('/index/login')}" rel="external nofollow">登录</a></li><li class=""><a href="{:url('/index/register')}">注册</a></li>
+    {/if}
+                            <li><a href="#" rel="external nofollow">VIP</a></li>
+
+                            <li><a href="#" rel="external nofollow">博客搬家</a></li>
+
+                            <li><a href="#">帮助</a></li>
+
+                        </ul>
+
+                    </nav>
+
+                </div>
+
+            </div>
+
+            <div class="site-nav-container pie">
+
+                <div class="container">
+
+                    <nav class="site-nav">
+
+                        <ul>
+
+                            <li class='shouye'><a href="/" class="pie">首页</a></li>
+
+                            <li class='xingzhe'><a href="/xingzhe/" class="pie">行者</a></li>
+
+                            <li class="fengshang"><a href="/fengshang/" class="pie">风尚</a></li>
+
+                            <li class='sejie'><a href="/sejie/" class="pie">色界</a></li>
+
+                            <li class='shenghuo'><a href="/shenghuo/" class="pie">生活</a></li>
+
+                            <!-- <li class='tuijian'><a href="http://tuijian.blogbus.com/"rel="external nofollow"  class="pie">推荐</a></li> -->
+
+                        </ul>
+
+                    </nav>
+
+                    <nav class="utility-menus">
+
+                        <ul>
+
+                            <li class="active"><span class="explore"><a href="/blog/index"  id="user_blog"
+                                                                        class="pie">博文目录</a></span></li>
+
+                            <li><span class="post"><a rel="external nofollow" href="#" target='_blank'
+                                                      class="pie">发布</a></span></li>
+
+                            <li><span class="settings"><a rel="external nofollow" href="#" class="pie" target='_blank'>设置</a></span>
+                            </li>
+
+                        </ul>
+
+                    </nav>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <div class="sub-nav-container">
+
+        <div class="container w1180">
+
+            <nav class="sub-nav">
+
+                <ul>
+
+                    <li class="tag0"><a href="/xingzhe/游记/">游记</a></li>
+                    <li class="tag1"><a href="/xingzhe/沿途风光/">沿途风光</a></li>
+                    <li class="tag2"><a href="/xingzhe/旅游景点/">旅游景点</a></li>
+                    <li class="tag3"><a href="/xingzhe/下榻/">下榻</a></li>
+                    <li class="tag4"><a href="/xingzhe/旅行/">旅行</a></li>
+                    <li class="tag5"><a href="/xingzhe/城市/">城市</a></li>
+                    <li class="tag6"><a href="/xingzhe/欧洲/">欧洲</a></li>
+                    <li class="tag7"><a href="/xingzhe/大海/">大海</a></li>
+                </ul>
+
+            </nav>
+
+
+            <script>
+
+                $(document).ready(function () {
+
+                    $("#search_input").keypress(function (e) {
+
+                        var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+
+                        if (keyCode == 13) {
+
+                            var keyword = $("#search_input").val();
+
+                            if (keyword == '') {
+
+                                alert("请输入关键词");
+
+                                return false;
+
+                            }
+
+                            else {
+
+                                var url = "http://www.blogbus.com/search/" + keyword;
+
+                                window.open(url, '_self');
+                            }
+                        }
+
+                        else
+
+                            return true;
+
+                    });
+
+                });
+
+                function search_article() {
+
+                    var keyword = $("#search_input").val();
+
+                    if (keyword == '') {
+
+                        alert("请输入关键词");
+
+                        return false;
+
+                    }
+
+                    else {
+
+                        var url = "http://www.blogbus.com/search/" + keyword;
+
+                        window.open(url, '_self');
+
+                    }
+
+                }
+
+
+            </script>
+
+            <div class="search">
+
+                <div class="search_left">
+
+                    <input id='search_input' name='keyword'/>
+
+                </div>
+
+                <div class="search_right">
+
+                    <img onclick="search_article();" src="/static/images/pindao_search_button.jpg"/>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        $('.site-nav .').addClass('active');
+
+        $('.sub-nav .').addClass('active');
+
+    </script>
+
+<div id="wrapper">
+
+
+    <style type="text/css">
+
+        div.small {
+            font-size: 12px;
+        }
+
+        div.normal {
+            font-size: 14px;
+        }
+
+        div.big {
+            font-size: 16px;
+        }
+
+    </style>
+
+
+    <script type="text/javascript" src="/static/js/picobox.js"></script>
+
+    <script type="text/javascript" src="/static/js/picobox_beauty.js"></script>
+
+    <link rel="stylesheet" href="/static/css/picobox.css" type="text/css"/>
+
+    <link rel="stylesheet" href="/static/css/picobox_beauty.css" type="text/css"/>
+
+
+    <script type="text/javascript" src="/static/js/page.js"></script>
+
+    <link href="/static/css/article.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/static/css/content.css" type="text/css"/>
+
+
+    <div class="mainContent">
+
+        <div class="column" id="detailWrapper">
+
+            <div id="detail" class="columnBody">
+
+
+                <div class="postHeader">
+
+                    <h2>{$list['title']}</h2>
+
+                     <h5>{$list['post_time']}</h5>
+
+                    <div class="menubar">
+
+                        <div class="info">
+
+                            作者：<a rel="external nofollow" href="#"
+                                  target="_blank">{$list['author']}</a>
+
+                        
+
+                            <br/>
+
+
+                        </div>
+
+                        <div class="clear"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="postBody">
+
+
+                    <div class="clear"></div>
+
+                    <div class="tag"><strong>标签：</strong>
+
+                        <a href="/xingzhe/游记">游记</a>
+
+                        <a href="/xingzhe/旅行">旅行</a>
+
+
+                    </div>
+
+                    <div class="share_new">
+
+                        <!-- Baidu Button BEGIN -->
+
+                        <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+
+                            <span class="bds_more">分享到：</span><a class="bds_tsina"></a>
+
+                            <a class="bds_qzone"></a>
+
+                            <a class="bds_tqq"></a>
+
+                            <a class="bds_renren"></a>
+
+                            <a class="bds_t163"></a>
+                        
+                            <a class="shareCount"></a>
+
+
+
+                        </div>
+
+                        <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6785502"></script>
+
+                        <script type="text/javascript" id="bdshell_js"></script>
+
+                        <script type="text/javascript">
+
+                            document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date() / 3600000)
+
+                        </script>
+
+                        <!-- Baidu Button END -->
+
+                    </div>
+
+                    <div class="clear"></div>
+
+                </div>
+
+                <div class="postFooter">
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div id="comments" class="commentList">
+            点赞<button  art_id={$list['id']} class="love_btn"><img src="/static/images/love.png" alt="点赞"></button>
+            
+            点赞总数:<span id='zan'>{$list['love']}</span> |阅读({if condition="$list['count'] == 0"}0
+            {else /}{$list['count']}
+            {/if})|转载(1)
+
+        </div>
+       
+        <div id="comments" class="commentList">
+        
+   
+        </div>
+
+        <div id="commentForm"></div>
+
+        <script type="text/javascript" src="#"></script>
+
+    </div>
+
+    <div class="subContent">
+
+        <!--Tag图-->
+
+        <div id="tagCloud" class="module">
+            <div class="borderlineSt"></div>
+            <h3><strong>热门Tag</strong> <span class="more"><!-- <a href="#">更多</a> --></span></h3>
+            <ul>
+                <li><a href="/xingzhe/游记/">游记</a></li>
+                <li><a href="/xingzhe/旅游景点/">旅游景点</a></li>
+                <li><a href="/xingzhe/旅行/">旅行</a></li>
+                <li><a href="/xingzhe/城市/">城市</a></li>
+                <li><a href="/xingzhe/欧洲/">欧洲</a></li>
+                <li><a href="/xingzhe/出境/">出境</a></li>
+                <li><a href="/xingzhe/西藏/">西藏</a></li>
+                <li><a href="/xingzhe/大海/">大海</a></li>
+                <li><a href="/xingzhe/日本/">日本</a></li>
+                <li><a href="/xingzhe/云南/">云南</a></li>
+                <li><a href="/xingzhe/街头/">街头</a></li>
+                <li><a href="/xingzhe/浙江/">浙江</a></li>
+                <li><a href="/xingzhe/上海/">上海</a></li>
+                <li><a href="/xingzhe/古镇/">古镇</a></li>
+                <li><a href="/xingzhe/泰国/">泰国</a></li>
+                <li><a href="/xingzhe/旅游/">旅游</a></li>
+                <li><a href="/xingzhe/摄影/">摄影</a></li>
+                <li><a href="/xingzhe/厦门/">厦门</a></li>
+                <li><a href="/xingzhe/法国/">法国</a></li>
+                <li><a href="/xingzhe/名胜古迹/">名胜古迹</a></li>
+                <li><a href="/xingzhe/攻略/">攻略</a></li>
+                <li><a href="/xingzhe/香港/">香港</a></li>
+                <li><a href="/xingzhe/四川/">四川</a></li>
+                <li><a href="/xingzhe/福建/">福建</a></li>
+                <li><a href="/xingzhe/马来西亚/">马来西亚</a></li>
+            </ul>
+            <div class="borderlineSt"></div>
+        </div>
+        <!--精彩推荐-->
+
+        <div id="spotlight" class="module">
+
+           
+
+            <div class="featured">
+
+                <div class>
+
+                   
+
+                </div>
+
+                <div class="clear"></div>
+
+            </div>
+
+      
+
+        </div>    <!--ad-->
+
+
+        <!--看法电子报-->
+
+        <div id="viewpoint" class="module">
+
+            <div class="borderlineSt"></div>
+
+            <h3><strong>看法电子报</strong></h3>
+
+            <div class="featured"><a rel="external nofollow" href="#"
+                                     target="_blank"><img
+
+                    src="/static/images/相亲2.jpg" alt="给我一个相亲的理由"/></a></div>
+
+            <div class="info">
+
+                <h5><a rel="external nofollow" href="#" target="_blank">给我一个相亲的理由</a>
+                </h5>
+
+
+                在经历最初的期望与失望之后我就不再对通过相亲找到另一半抱有多大的幻想，久而久之变成一种痛并麻木着的应酬。
+
+                <div class="readmore"><a rel="external nofollow" href="#"
+                                         target="_blank">阅读更多&raquo;</a></div>
+
+            </div>
+
+            <div class="clear"></div>
+
+            <ul>
+
+                <li><a rel="external nofollow" href="#"
+                       target="_blank">花样过年记</a> [编辑：暖]
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="clear"></div>
+
+        <!--DMP Site Tracking Code >
+
+        <script type="text/javascript" language="javascript">
+
+        var dmp_referrer = document.referrer;
+
+        var dmp_opener = null;
+
+        var dmp_parent = null;
+
+        if (window.opener != null) { dmp_opener = window.opener.location; }
+
+        if (window.parent != null) { dmp_parent = window.parent.location; }
+
+        </script>
+
+        <script type="text/javascript" language="javascript" src="js/samsungchinamobile.js"></script>
+
+        <!--End of DMP Site Tracking Code-->
+
+        <div style="display:none;">
+
+            <img src="other/.cn/htracker/pid=2444/media=blogbus/place=17bbpd/size=250x280"/>
+
+        </div>
+    </div>
+</div>
+<script> 
+$(function(){
+    $(".love_btn").click(function(){
+        var id = $(this).attr('art_id');//对应文章id
+        console.log(id);
+        $.ajax({
+            type : 'get',
+            url : '/article/love',
+            data:{'id':id},
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                if (data.status) {
+                    $('#zan').text('');
+                   $('#zan').text(data.count) ;
+                    alert('感谢您的赞');
+
+
+                }else{
+                    alert('您已经赞过啦');
+                }
+               
+            }
+        });
+    })
+});
+
+</script>
+<div id="footer" class="footer">
+
+    <div class="utilityMenu">
+
+        <a target="_blank" rel="external nofollow" href="#">媒体报道</a>&nbsp;|&nbsp;
+
+        <a target="_blank" href="#">关于我们</a>&nbsp;|&nbsp;
+
+        <a target="_blank" href="#">工作机会</a>&nbsp;|
+
+        &nbsp;<a target="_blank" href="#">相关法律</a>&nbsp;|
+
+        &nbsp;<a target="_blank" href="#">广告服务</a>&nbsp;|
+
+        &nbsp;<a target="_blank" rel="external nofollow" href="#">申请博客</a>&nbsp;|&nbsp;
+
+        <a target="_blank" href="#">网站地图</a>&nbsp;|&nbsp;<a target="_blank" href="#">合作伙伴</a>
+
+    </div>
+
+    <div class="copyright">&copy; 2002-2017 BlogBus.com, All Rights Reserved. 博客大巴 版权所有 沪ICP备05008275号-1</div>
+
+    <div style="width:300px;margin:0 auto; padding:20px 0;">
+
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202001260"
+           style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+                src="/static/images/ba.png"
+                style="float:left;"/>
+            <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">沪公网安备
+                31011202001260号</p></a>
+
+    </div>
+
+</div>
+
+<div id="gotop" class='pie' title='回到顶部'>
+
+    <div id="arrow"><img src="/static/images/arrow.png"></div>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(document).scroll(function () {
+
+            if ($(document).scrollTop() < 200) {
+
+                $('#gotop').fadeOut('normal');
+
+            } else {
+                $('#gotop').fadeIn('normal');
+            }
+
+            $('#arrow').click(function () {
+
+                $(document).scrollTop(0);
+
+            })
+
+        });
+
+    })
+
+</script>
+
+
+<!-- 登录 -->
+
+<!--<script type="text/javascript">-->
+
+    <!--function load_Data(){-->
+        <!--// 创建一个script标签-->
+        <!--var script = document.createElement('script');-->
+        <!--// 设置src为 我们请求的那个地址-->
+        <!--script.src = "{:url('index/index/Login_Validate')}";-->
+        <!--// 添加script标签到页面中-->
+        <!--document.body.appendChild(script);-->
+    <!--}-->
+    <!--function login_info(u) {-->
+<!--//        u.user-->
+        <!--if (true) {-->
+
+            <!--$("#header_login_username").text(u.user);-->
+
+            <!--$("#login_username").text(u.user);-->
+
+            <!--$(".nologin").hide();-->
+
+            <!--$(".logged").show();-->
+
+            <!--if (u.domain) {-->
+
+                <!--var link = 'http://' + u.domain;-->
+
+                <!--$("#user_blog").attr('href', link);-->
+
+                <!--$("#user_blog").attr('target', '_blank');-->
+
+            <!--}-->
+
+        <!--} else {-->
+
+            <!--$(".nologin").show();-->
+
+            <!--$(".logged").hide();-->
+
+            <!--$("#user_blog").attr('href', 'http://blog.home.blogbus.com/posts/');-->
+
+        <!--}-->
+
+    <!--}-->
+<!--</script>-->
+
+<div style='display:none'>
+
+</div>
+
+</body>
+
+</html>
+
+
+
+

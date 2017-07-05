@@ -1,0 +1,528 @@
+{extend name="blog/index"}
+{block name="main"}
+<script type="text/javascript">
+$('a.submenuNewPost').addClass('actived');
+</script>
+<script type="text/javascript" src="/static/js/tiny_mce.js"></script>
+<script type="text/javascript">
+document.domain='blogbus.com';
+tinyMCE.init({
+    theme : "advanced",
+    mode : "exact",
+    language : 'zh-cn',
+    elements : "content,excerpt",
+    convert_urls : false,
+    width:870,
+    content_css : "http://q.blogbus.com/bbc-v6/css/editor_content.css",
+    plugins : "media,inlinepopups",
+    inlinepopups_skin : "blogbus",
+    theme_advanced_buttons1 : 'fontselect,fontsizeselect,forecolor,backcolor,bold,italic,underline ,strikethrough,|,justifyleft,justifycenter,justifyright,|,bullist,numlist,|,link,unlink,image,flash,media,|,copy,cut,paste,removeformat,undo,redo,code',
+    theme_advanced_buttons2 : '',
+    theme_advanced_buttons3 : '',
+    theme_advanced_fonts : "宋体=\'宋体\', sans-serif; 黑体=\'黑体\', sans-serif; 楷体=\'楷体_GB2312\', sans-serif; 隶书=\'隶书\', sans-serif;幼圆=\'幼圆\', sans-serif; 新宋体=\'新宋体\',sans-serif;微软雅黑=\'微软雅黑\', sans-serif; Arial=Arial; Arial Black=Arial Black; Arial Narrow=Arial Narrow; Brush Script MT=Brush Script MT; Century Gothic=Century Gothic; Comic Sans MS=Comic Sans MS; Courier=Courier; Courier New=Courier New; MS Sans Serif=MS Sans Serif; Script=Script; System=System; Times New Roman=Times New Roman; Verdana=Verdana; Wide Latin=Wide Latin; Wingdings=Wingdings;",
+    theme_advanced_font_sizes : "9px=9px,10px=10px,12px=12px,14px=14px,16px=16px,18px=18px,24px=24px,36px=36px",
+    extended_valid_elements : "code[name|class],pre[name|class|style],fieldset[class|dir<ltr?rtl|id|lang|style|title],"
+        +"textarea[accesskey|class|cols|disabled<disabled|id|lang|name|readonly<readonly|rows|style|tabindex|title],"
+        +"input[accept|accesskey|align<bottom?left?middle?right?top|alt|checked<checked|class|dir<ltr?rtl|disabled<disabled|id|ismap<ismap|lang|maxlength"
+        +"|name|readonly<readonly|size|src|style|tabindex|title|type<button?checkbox?file?hidden?image?password?radio?reset?submit?text|usemap|value],"
+        +"option[class|dir<ltr?rtl|disabled<disabled|id|label|lang|selected<selected|style|title|value],"
+        +"button[accesskey|class|dir<ltr?rtl|disabled<disabled|id|lang|name|style|tabindex|title|type|value],"
+        +"select[class|dir<ltr?rtl|disabled<disabled|id|lang|multiple<multiple|name|size|style|tabindex|title],"
+        +"form[accept|accept-charset|action|class|dir<ltr?rtl|enctype|id|lang|method<get?post|name|style|title|target]",
+    remove_linebreaks : false,
+    theme_advanced_toolbar_location : "top",
+    theme_advanced_toolbar_align : "left",
+    theme_advanced_path_location : "bottom",
+    theme_advanced_resizing : true,
+    theme_advanced_resize_horizontal : false
+});
+</script>
+<!-- /editor -->
+<script type="text/javascript">
+var _blog_id = 7234385;
+var _post_id = 0;
+var _editor_status = false;
+function insertHtml(str) {
+    tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, str);
+}
+function insertObj(src, basepath, thumb) {
+    var type = src.substring(src.length - 3, src.length).toLowerCase();
+    switch( type ) {
+    case "bmp":
+    case "png":
+    case "gif":
+    case "jpg":
+        objstr = getImageObj(src, basepath, 0, 0, thumb);
+        break;
+    case "swf":
+        objstr = getMediaObj(basepath + src, 400, 360);
+        break;
+    case "mp3":
+    case "mpg":
+    case "wmv":
+    case "wma":
+    case "asf":
+        objstr = getMediaObj(basepath + src, 300, 200, 'WindowsMedia');
+        break;
+    default :
+        objstr = '<a href="' + basepath + src + '" target="_blank">' + basepath + src + '</a>';
+    }
+	insertHtml(objstr);
+}
+function onMessage(msg){
+alert(msg);
+}
+function getMediaObj(src, width, height, type) {
+    if (!type) {
+        type = 'Flash';
+    }
+    return html = ''
+        + '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
+        + ' width="' + width + '"'
+        + ' height="' + height + '"'
+        + ' border="0" title="src:\'' + src + '\',width:\'' + width + '\',height:\'' + height + '\'" class="mceItem' + type + '" />';
+}
+function getImageObj(src, basepath, width, height, thumb) {
+    width = width ? ' width="' + width + '"' : '';
+    height = height ? ' height="' + height + '"' : "";
+    var html = '<img src="' + basepath + src + '" '
+        + width + height
+        + ' border="0"/>';
+    if (thumb == 2){
+        html = '<a href="' + basepath + 's/' + src  + '" target="_blank">' + html + '</a>';
+    }
+    return html;
+}
+</script>
+<style type="text/css">
+.nav ul li.xinrizhi a { 
+	background:#fff; 
+	color:#90c044; 
+	-webkit-border-radius:5px 5px 0 0; 
+	-moz-border-radius:5px 5px 0 0; 
+	border-radius:5px 5px 0 0; 
+}
+.container{overflow:visible}
+</style>
+<div class="container">
+	<div class="content">
+    <!--title start-->
+    <div class="current-blog">
+        		<!-- 当前博客：<a href="javascript:void(0)" target="_blank">Bus公告</a> <span class="switch-blogs"><a href="javascript:void(0)">[切换博客]</a></span> -->
+        		<span class="subCurrent">
+	<div style='float:left'>
+	当前博客：<a title="在新窗口中查看：jay (http://wwwjay.blogbus.com" class="pub_blogName01" target="_blank" href="http://wwwjay.blogbus.com">jay</a>
+	</div>
+	<div style='float:left;margin-left:10px'>
+		<a id="switch_blog" onclick="toggleMenu('#dm_changeBlog')" title="切换当前博客" class="pub_subLink" href="javascript:void(0)">[切换博客]</a>
+		<ul style="display: none;" class="pub_dropmenu change_blog" id="dm_changeBlog">
+			
+			<li><a onclick="hideMenu('#dm_changeBlog');return false;" href="/7234385/posts/form">
+				jay</a></li>
+			
+		</ul>
+	</div>
+	<script type="text/javascript">
+	function toggleMenu(selector){
+		$(selector).slideToggle('fast');
+	}
+	</script>
+</span>
+        </div>
+    <!--title end-->
+    <!--main start-->
+	<form method="post" action="/7234385/posts/" name="EditorForm">
+    <div id="pub_main" class='new_post'>
+      <!--<div class="noticeInfo" style="margin-left:0; margin-right:0; margin-bottom:15px;">
+<p>“文件管理”功能升级，“添加图片”功能暂时不可用。预计周三（5月20日）上午九点恢复，给您带来的不便，敬请谅解！</p>
+      </div>-->
+      <div id="postWrite">
+        <div class="postWrite_r1">
+          <div class="postWrite_title">
+            <label>标题：</label>
+            <input name="title" id='post_title' type="text" style="width:410px;" class="text" value=""/>
+          </div>
+          <div class="postWrite_time">
+            <label>时间：</label>
+			<input type="hidden" id="post_time" name="post_time" value="2017-06-19 14:24" />
+            <span class="postWrite_currentDate"></span>&nbsp;<span class="postWrite_currentTime"></span>
+			<span class="postWrite_time_edit pub_dropmenuP"><a href="javascript:void(0)" onclick="$('#dm_postWrite_time_edit').slideToggle('fast');return false;"><img class="pub_subLink" src="/static/images/icon_pencil_s.gif" width="16" height="16" alt="修改" /></a>
+	            <div id="dm_postWrite_time_edit" class="dm_postWrite_time_edit pub_dropmenu" style="display:none;">
+	              <p class="info">修改日志发布时间</p>
+	              <p>
+	                <input type="text" style="width:75px;" class="text" id="txtDate" />
+	                <input type="text" style="width:45px;margin-top:5px" class="text" id="txtTime" />
+	              </p>
+	              <div>
+	                <input type="button" value="确定" id="postDateOk" class="button" />
+	                <input type="button" value="取消" id="postDateCancel" class="button" />
+	              </div>
+	            </div>
+					</span>
+             </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="postWrite_r2 cb">
+          <div class="postWrite_content bgGray">
+            <div class="inserButton"> <img id="btn_smily" height="30" width="85" alt="插入表情" src="/static/images/buttons1.gif"/> <img height="30" width="85" alt="插入图片" src="/static/images/buttons2.gif" id="btn_pic" /> <img height="30" width="85" alt="插入书籍" src="/static/images/douban_button.png" id="btn_douban" /><span class="draftSave"></span> </div>
+            <div class="postWrite_content_">
+              <textarea  name="content" id="content" style="width:870px; height:300px; margin-left:2px;"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="postWrite_r3 cb">
+          <div class="postWrite_cate">
+            <label>分类：</label>
+            <select name="sort_id">
+        <option value="">选择分类...</option>
+        </select>            <span class="postWrite_cate_add"> <a href="javascript:void(0)" id="newCate">创建分类</a></span> </div>
+          <div class="postWrite_tag pub_dropmenuP">
+            <label>标签：</label>
+            <input name="tags" type="text" style="width:300px;" class="text pub_subLink"
+	   value="" />
+	    <input type="button" class="button" value="自动提取标签" id="btn_extract" />
+	   
+	   
+            
+            <div id="dm_postWrite_tag" class="pub_dropmenu">
+              
+            </div>
+          <div class="clearfix"></div>
+        </div>
+		
+        <div id="postWrite_advanced" class="bgGray cb">
+          <div class="postWrite_advanced_title">
+            <label>高级选项</label>
+          </div>
+          <div class="postWrite_advanced_content" style='display:none'>
+            <div class="postWrite_r4">
+              <div class="postWrite_excerpt">
+                <div class="postWrite_excerpt_title">
+                  <label>文章摘要：</label>
+                  不填时则自动生成，或 <a href="javascript:void(0)" id="ln_copy_content">复制全文内容到简介</a></div>
+                <div class="postWrite_excerpt_edit">
+                  <textarea style="width:870px; height:200px;" id="excerpt" name="excerpt"  class="editor"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="postWrite_r5">
+              <div class="postWrite_private">
+                <label>阅读权限：</label>
+                <span class="postWrite_pri_statu">公开</span> <span class="postWrite_pri_edit pub_dropmenuP"><a href="javascript:void(0)" onclick="$('#dm_postWrite_pri_edit').slideToggle('fast'); return false;"><img src="/static/images/icon_pencil_s.gif" width="16" height="16" alt="修改" class="pub_subLink"/></a>
+                <div id="dm_postWrite_pri_edit" class="pub_dropmenu">
+                  <p class="info">修改阅读权限</p>
+                  <ul>
+                    <li>
+                      <input type="radio" name="visibility" value="public" id="visi_pub" checked="checked" />
+                      <label for="visi_pub">公开</label>
+                    </li>
+                    <li>
+                      <input type="radio" name="visibility" value="hidden" id="visi_hid" />
+                      <label for="visi_hid">隐藏</label>
+                    </li>
+                    <li>
+                      <input type="radio" name="visibility" value="password" id="visi_pwd" />
+                      <label for="visi_pwd">密码</label>
+                      <input type="text" style="width:55px;" class="text" name="password" value="" />
+                    </li>
+                  </ul>
+                  <div>
+					<input name="visi_opt" value="public" type="hidden" />                    <input type="button" value="确定" class="button" id="visi_ok"/>
+                    <input type="button" value="取消" class="button" id="visi_cancel"/>
+                  </div>
+                </div>
+                </span> </div>
+              <div class="postWrite_option">
+                <input type="checkbox" value="1" name="always_top" id="chk_always_top">
+                <label for="chk_always_top">日志置顶</label>
+		 <input type="checkbox" value="1" name="allow_recommend" id="chk_allow_recommend">
+                <label for="chk_allow_recommend">推荐到首页</label>
+                <input type="checkbox" value="1" name="allow_comment" id="chk_allow_comment">
+                <label for="chk_allow_comment">允许评论</label>
+                <input type="checkbox" value="1" id="chk_allow_trackback" name="allow_trackback">
+                <label for="chk_allow_trackback">允许引用</label>
+                <input type="checkbox" value="1" name="allow_auto_link" id="chk_allow_auto_link">
+                <label for="chk_allow_auto_link">允许自动链接</label>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <div class="postWrite_r6">
+          <div class=" wmp_button">
+						<input name="force" value="0" type="hidden" />            <input type="button" value="发布日志" id="btn_pub" class='button' style='float:left'>
+            <input type="button" value="保存草稿" id="btn_draft" class='button' style='float:left'>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+	</form>
+    <!--main end-->
+	</div>
+</div>
+  
+<div id="addNewCat" style="display:none">
+<table border="0" cellpadding="0" cellspacing="0" class="popup_edit" >
+  <tr>
+    <th class="height30">新分类名称：</th>
+    <td><input name="name" type="text" style="width:200px;" id="new_sort_name" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><div  class="buttoncenter">
+<input type="button"  class="button" value="添加分类" onclick="addSort($('#picobox #new_sort_name').val());Picobox.hide()" /><input type="button" onclick="Picobox.hide()"  class="button" value="取消" />
+</div></td>
+  </tr>
+</table>
+</div>
+  
+<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
+<script type="text/javascript">
+$('#btn_smily').click(function(){
+	Picobox.showIFrameBox('插入表情','http://user.blogbus.com/user/view/emotions.html?from=blog.home.blogbus.com', {height:300,width:375});
+	return false;
+}).css('cursor','pointer');
+$('#btn_pic').click(function(){
+	Picobox.showIFrameBox('插入图片','http://user.blogbus.com/user/?mm=File&aa=Browser&from=blog.home.blogbus.com',{height:490,width:730});return false;
+	return false;
+}).css('cursor','pointer');
+$('#btn_douban').click(function(){
+	Picobox.showIFrameBox('插入书籍','http://user.blogbus.com/user/?mm=Douban&aa=Browser&from=blog.home.blogbus.com',{height:460,width:700});
+	return false;
+}).css('cursor','pointer');
+function addSort(sortname) {
+    if (sortname!=null && sortname=='') {
+        return;
+    }
+    $.post("http://blog.home.blogbus.com/7234385/categories?json=1", {"name": sortname},
+		function (json) {
+			if (json.success) {
+				var id = json.success.id;
+				$('select[name=sort_id]').append(new Option(sortname, id)).val(id);
+			}
+		}, 'json'
+	);
+}  
+function updatePostDate() {
+	var arr_datetime = $('#post_time').val().split(/[ ]+/);
+	$('#txtDate').val(arr_datetime[0]);
+	$('#txtTime').val(arr_datetime[1]);
+	$('span.postWrite_currentDate').text(arr_datetime[0]);
+	$('span.postWrite_currentTime').text(arr_datetime[1]);
+}
+updatePostDate();
+$('#postDateOk').click(function(){
+	var datetime = $.trim($('#txtDate').val()+' '+$('#txtTime').val());
+	$('#post_time').val(datetime);
+	updatePostDate();
+	$('#dm_postWrite_time_edit').slideUp('fast');
+});
+$('#postDateCancel').click(function(){
+	$('#dm_postWrite_time_edit').slideUp('fast');
+	updatePostDate();
+});  
+var edit_form = document.EditorForm;
+var visi_names = {'public':'公开','hidden':'隐藏','password':'加密'}
+$('#visi_ok').click(function () {
+	var value = $(edit_form).find('.postWrite_private input:radio:checked').val();
+	edit_form.visi_opt.value = value;
+	$(edit_form).find('span.postWrite_pri_statu').text(visi_names[value]);
+	if (value == 'hidden') {
+		$('#chk_always_top').attr('checked', false).attr('disabled', true);
+	} else {
+		$('#chk_always_top').attr('disabled', false);
+	}
+	$('#dm_postWrite_pri_edit').slideUp('fast');
+});
+$('#visi_cancel').click(function () {
+	var value = edit_form.visi_opt.value;
+	$('#dm_postWrite_pri_edit').slideUp('fast');
+	$(edit_form).find('.postWrite_private input:radio').each(function(){
+	if (this.value==value){
+		this.checked=true;
+	}
+	});
+	if (value == 'hidden') {
+		$('#chk_always_top').attr('checked', false).attr('disabled', true);
+	} else {
+		$('#chk_always_top').attr('disabled', false);
+	}
+	$(edit_form).find('span.postWrite_pri_statu').text(visi_names[value]);
+});
+$('#visi_cancel').click();
+$('select[name=sort_id]').val();
+//$('input[name=tags]').click(function(){$('#dm_postWrite_tag').slideDown('fast');return false;});
+function hint(input, str) {
+	var n_hint = $('<div></div>').css({
+		'position': 'absolute',
+		'left':input.offsetLeft,
+		'top':input.offsetTop,
+		'height':input.offsetHeight,
+		'width':input.offsetWidth,
+		'paddingLeft':'0.5em',
+		'color':'#999',
+		'zIndex':-1
+	}).text(str).click(function(){$(input).focus().click();return false;});
+	$(input).parent().css('position', 'relative').append(n_hint);
+	var _hint=function(o){
+		var v=o.value?o.value:this.value;
+		if (v=='' || v==undefined){
+			n_hint.css('visibility','visible');
+		} else {
+			n_hint.css('visibility','hidden');
+		}
+	};
+	$(input).css({'backgroundColor':'transparent','zIndex':1}).focus(function(){n_hint.css('visibility','hidden');}).blur(_hint).change(_hint);
+	_hint(input);
+}
+hint($('input[name=tags]')[0], '最多可以加5个标签，用逗号或空格分隔');
+$('#btn_extract').click(function() {
+$('#btn_extract').attr('disabled', true);
+var data = {
+	'title':edit_form.title.value,
+	'content':tinyMCE.editors.content.getContent(),
+	'REQUEST_METHOD':'GET'
+};
+var url="/posts/extract_tags";
+$.post(url, data, function(ret){
+	$('#btn_extract').attr('disabled', false);
+	if (!ret.tags) {
+		return;
+	}
+	$('input[name=tags]').val(ret.tags.join(' ')).change();
+}, 'json');
+});
+$('#dm_postWrite_tag').find('span').mousedown(function(){
+	var tags = $('.postWrite_tag input:text').val().split(/[\s　]+/g);
+	var t = [];
+	var new_tag =$(this).text();
+	for (var i=0; i<tags.length;i++) {
+		if (tags[i]=='') {
+			continue;
+		}
+		if (tags[i]==new_tag) {
+			return;
+		}
+		t.push(tags[i]);
+	}
+	if (t.length >= 5) {
+		alert('最多可以填入5个标签');
+		return;
+	}
+	tags = t;
+	tags.push(new_tag);
+	$('input[name=tags]').val(tags.join(' ')).change();
+});
+$('#ln_copy_content').click(function(){
+tinyMCE.getInstanceById('excerpt').setContent(tinyMCE.getInstanceById('content').getContent());
+return false;
+});
+$('#chk_allow_comment').attr('checked', true);
+$('#chk_allow_trackback').attr('checked', true);
+$('#chk_allow_auto_link').attr('checked', true);
+//
+//if (_draftid != 0 && edit_form.ID.value != 0) {
+//	$('#autosavemsg').html('此篇日志已保存在草稿，<a href="javascript: recovery('+ _draftid +')">点击导入</a>');
+//}
+$('#postWrite_advanced div.postWrite_advanced_title').click(function(){
+	$('.postWrite_advanced_content').slideToggle('fast', function(){
+	$.cookie('bus.editor.showAdv', $('.postWrite_advanced_content').css('display'), {path:'/',expires:365});
+	});
+});
+$('.postWrite_advanced_content').css('display', $.cookie('bus.editor.showAdv')||'none');
+$(edit_form).submit(function(){return false;});
+function post() {
+if(document.getElementById('post_title').value=='') {alert('您还没有填写标题'); return;}
+$('#btn_pub').attr('disabled', true);
+$('#btn_pub').removeClass('button');
+$('#btn_pub').addClass('button_submit');
+$('#btn_pub').val('正在发布');
+edit_form.content.value=tinyMCE.editors.content.getContent();
+edit_form.excerpt.value=tinyMCE.editors.excerpt.getContent();
+var data = $(edit_form).serialize();
+$.ajax({
+'url':edit_form.action,'data':data,'type':'POST','dataType':'json',
+'complete':function(ret){
+	 $('#btn_pub').attr('disabled', false);
+	$('#btn_pub').removeClass('button_submit');
+        $('#btn_pub').addClass('button');
+	$('#btn_pub').val('发布日志');
+},
+'success':function(ret){
+	if (ret.success) {
+		window.location.href = 'http://blog.home.blogbus.com/'+_blog_id+'/posts';
+		return;
+	} else if(ret.failure.bad) {
+			if (confirm("您提交的日志中存在敏感词汇("+ret.failure.bad_content+")，若您确定发布，该日志将被暂时锁定，审核通过后即可正常显示，请耐心等待。您也可选择“取消”，修改或去除敏感词汇后再提交。\n为了维护博客大巴网络和谐，请避免涉及政治或低俗内容，感谢配合。")) {	
+			edit_form.force.value = 1;
+			post();
+		}
+	} else if (ret.failure.message) {
+                alert(ret.failure.message);
+	}
+},
+'error':function(xhr, status){
+	var ret=(new Function('return '+xhr.responseText))();
+	if (ret.failure.message){
+		alert(ret.failure.message);
+	}
+	$('#btn_pub').attr('disabled', false);
+}
+});
+}
+$('#btn_pub').click(post);
+var draft_id=0;
+function draft() {
+var content=tinyMCE.editors.content.getContent();
+if (content=='' || edit_form.content.value==content) {
+	return;
+}
+if (draft.lock){return;};
+draft.lock=true;
+$('#btn_draft').attr('disabled', true);
+$('#btn_draft').removeClass('button');
+$('#btn_draft').addClass('button_submit');
+$('#btn_draft').val('正在保存');
+edit_form.content.value=content;
+var data = {
+	'title':edit_form.title.value,
+	'content':edit_form.content.value,
+	'post_time':edit_form.post_time.value,
+	'post_id':_post_id,
+	'draft_id':draft_id
+};
+var url="/7234385/posts/draft";
+$.post(url, data, function(ret){
+        $('#btn_draft').val('保存成功');
+	setTimeout(function(){$('#btn_draft').val('保存草稿');},1000);
+	$('#btn_draft').attr('disabled', false);
+	$('#btn_draft').removeClass('button_submit');
+	$('#btn_draft').addClass('button');
+	if (ret.success) {
+		var time=(new Date()).toTimeString().replace(/:[^:]+$/, '');
+		$('span.draftSave').text(time+'保存到草稿');
+		if (ret.success.id) {
+			draft_id=ret.success.id;
+		}
+	}
+	draft.lock=false;
+}, 'json');
+}
+$('#btn_draft').click(draft);
+setInterval(draft, 60000*5);
+$(document).unload(function(){
+});
+$('#newCate').click(function(){
+	Picobox.showDOMBox('创建分类','#addNewCat',{width:330,height:120});
+	return false;
+});
+</script>
+		<script type="text/javascript" src="other/.com/msg_count"></script>
+	<script type="text/javascript">
+	$('body').click(function(e){
+	if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+	$('.pub_dropmenu').slideUp('fast');
+	}
+	})
+	</script>
+    {/block}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="/static/css/boot/bootstrap.min.css" rel="stylesheet">
+    <title>{$title}</title>
+</head>
+<body>
+    <div class="container">
+        <h1>美女图片</h1>
+        <hr>
+        <?php foreach($cookbook as $cook):?>
+            <ul class="list-group">
+                <li class="list-group-item"><?= $cook->title;?><?= $cook->description;?></li>
+                <li class="list-group-item"><img src="<?= $cook->picUrl;?>" alt="" width="800"></li>
+
+                <li class="list-group-item"><a class="btn btn-primary" href="<?= $cook->url;?>" role="button" target="_blank">查看文章</a></li>
+            </ul>
+        <?php endforeach;?>
+    </div>
+</body>
+</html>

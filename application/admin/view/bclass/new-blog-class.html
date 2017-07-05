@@ -1,0 +1,59 @@
+{extend name="index/index"}
+{block name="main"}
+
+<div class="span9">
+    <div class="row-fluid">
+        <div class="page-header">
+            <h1>NEW CLASS <small>新建分类</small></h1>
+        </div>
+        <form action="{:url('bclass/newclass')}" class="form-horizontal" method="post">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="category_name">分类名</label>
+                    <div class="controls">
+                        <input type="text" name="category_name" class="input-xlarge" id="category_name" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="pid">pid</label>
+                    <div class="controls">
+                        <input type="text" name="pid" class="input-xlarge" id="pid" readonly="readonly" value="{$list['pid']}"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="path">path</label>
+                    <div class="controls">
+                        <input type="text" name="path" class="input-xlarge" id="path" readonly="readonly" value="{$list['path']}"/>
+                    </div>
+                </div>
+
+
+                <!--<div class="control-group">-->
+                <!--<label class="control-label" for="role">Role</label>-->
+                <!--<div class="controls">-->
+                <!--<select name="role" id="role">-->
+                <!--<option value="admin">Admin</option>-->
+                <!--<option value="mod">Moderator</option>-->
+                <!--<option value="user" selected>User</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--</div>	-->
+                <div class="control-group">
+                    <label class="control-label"  for="active">Display</label>
+                    <div class="controls">
+                        <input type="radio" checked name="display" id="action" value="1" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;显示&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" id="action" name="display" value="0" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不显示
+                    </div>
+                </div>
+                <div class="form-actions background-null">
+                    <input type="submit" class="btn btn-success btn-large" value="保存用户" /> <ainputututass="btn" href="../Vip/users.html">取消</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</div>
+
+<hr>
+
+{/block}

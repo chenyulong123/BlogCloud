@@ -1,0 +1,83 @@
+{extend name="album/album-mange"}
+
+{block name="album"}
+
+<script type="text/javascript" src="/static/js/swfupload.js"></script>
+<script type="text/javascript" src="/static/js/swfupload.queue.js"></script>
+<script type="text/javascript" src="/static/js/fileprogress.js"></script>
+<script type="text/javascript" src="/static/js/handlers.js"></script>
+<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
+
+<script type="text/javascript">
+
+    $('li.menuFileClass').addClass('actived');
+    $('a.submenuFileUpload').addClass('actived');
+</script>
+<style type="text/css">
+    .nav ul li.shangchuan a {
+        background:#fff;
+        color:#90c044;
+        -webkit-border-radius:5px 5px 0 0;
+        -moz-border-radius:5px 5px 0 0;
+        border-radius:5px 5px 0 0;
+    }
+    .content {padding-bottom:10px; }
+</style>
+<div class="content">
+    <div class="container">
+        <div class="savespace">
+<span class="total-space">
+			<span class="used" style='width:1%'></span></span>
+            <span style="color:#90c044;">0.04M/100M</span>
+        </div>      <div class="files_action">
+        <!--&gt; <a href="/documents/2049242/thumbs">默认文件夹</a> --> &nbsp;
+        <!--<div class="pub_subMenuRight">-->
+        <!--<div class="pub_Search01" ><input name="" type="text" class="searchText" value="搜索文件名" /><input name="" type="submit" value="" class="searchButton" /></div>-->
+        <!--</div>-->
+    </div>
+        <div class="files_upload">
+
+            <form action="{:url('/Album/Upload_Image')}" enctype="multipart/form-data" method="post">
+
+                <div class="sfolder"><span>选择图片集：</span>
+                    <select name="FolderID" style="margin-bottom: 1px;">
+                        <?php foreach($category as $va):?>
+                        <option value="<?php echo $va['id']?>" selected="selected"><?php echo $va['name'];?></option>
+                        <?php endforeach;?>
+
+                    </select>
+                </div>
+
+                <br/>
+                <br/>
+
+                <div class="form-group">
+                    <label for="exampleInputFile">文件上传</label>
+                    <input type="file" id="exampleInputFile" name="image" />
+                    <p class="help-block">请选择要上传的图片</p>
+                </div>
+                <input class="btn btn-default" type="submit" value="上传">
+            </form>
+
+
+
+            <div class="caution files_upload_info" style="clear:both">
+                <ul>
+                    <li>每次上传文件不可超过10个，单个文件的大小请限制在5M。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 帮助 -->
+
+
+<script type="text/javascript">
+    //	$('body').click(function(e){
+    //	if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+    //	$('.pub_dropmenu').slideUp('fast');
+    //	}
+    //	})
+</script>
+
+{/block}

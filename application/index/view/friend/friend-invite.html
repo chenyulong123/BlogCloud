@@ -1,0 +1,51 @@
+{extend name="friend/friend-list"}
+{block name="friend"}
+<style type="text/css">
+.nav ul li.yaoqing a { 
+  background:#fff; 
+  color:#90c044; 
+  -webkit-border-radius:5px 5px 0 0; 
+  -moz-border-radius:5px 5px 0 0; 
+  border-radius:5px 5px 0 0; 
+}
+.container {font-size: 14px;}
+</style>
+<link rel="stylesheet" href="/static/css/pm.css" type="text/css"  />'
+<div class="content">
+	<div class="container">
+        <div class="pmList snsNoticeList">
+            <style>
+                .noticeInfo {
+                background:#FFFDD7 url(/static/images/icon_info.gif) no-repeat scroll 12px 13px;
+                border:1px solid #FEE8BD;
+                line-height:150%;
+                margin:20px 20px 0;
+                padding:10px 0 8px 33px;
+                }
+            </style>
+            <div class="noticeInfo">
+                <ul class="list-group">
+                    <?php foreach($message as $msg):?>
+                    <li class="list-group-item">
+                        <?= $msg['private_msg']?>
+                        <span style="color: #3e8f3e; float: right; font-size: 12px">来自博客：<?= $msg['name'];?></span></li>
+                    <?php endforeach;?>
+                </ul>
+                <p style="margin-bottom: 0px;"></p>
+            </div>          
+                    <div class="pub_listFoot">
+                <div class="pri_blogPostPage">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	<script type="text/javascript">
+	$('body').click(function(e){
+	if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+	$('.pub_dropmenu').slideUp('fast');
+	}
+	})
+	</script>
+{/block}

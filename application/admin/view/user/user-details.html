@@ -1,0 +1,76 @@
+{extend name="index/index"}
+{block name="main"}
+        <!-- 博客列表 -->
+        <div class="span9">
+		  <div class="row-fluid">
+			<div class="page-header">
+				<h1>USER<small>用户详情</small></h1><a href="{:url('User/user')}"><div class="div-pos">返回</div></a>
+			</div>
+			<table class="table table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>用户名</th>
+						<th>性别</th>
+						<th>星座</th>
+						<th>血型</th>
+					</tr>
+				</thead>
+				<tbody>
+				<tr class="list-users">
+					<td>{$list['id']}</td>
+					<td>{$list['name']}</td>
+					<td>{$list['sex']}</td>
+					<td>{$list['constellation']}</td>
+					<td>{$list['blood']}</td>
+				</tr>
+				<tr class="list-users">
+
+					<th>省份</th>
+					<th>市</th>
+					<th>出生年</th>
+					<th>出生月</th>
+					<th>出生日</th>
+				</tr>
+					<tr class="list-users">
+					<td>{$list['live_province']}</td>
+					<td>{$list['live_city']}</td>
+					<td>{$list['birthday_year']}</td>
+					<td>{$list['birthday_month']}</td>
+					<td>{$list['birthday_day']}</td>
+
+				</tr>
+				<tr>
+					<th>头像</th>
+					<th colspan="7">自我描述</th>
+					
+				</tr>
+				<tr>
+					<td><img  class='imgd-size' src="{$list['icon']}"></td>
+					<td colspan='7'>{$list['intro']}</td>
+				</tr>
+				
+				</tbody>
+			</table>
+            
+		
+
+			
+			  
+			 
+
+			  
+		
+
+
+				
+			</div>
+
+			
+			
+		  </div>
+        </div>
+      </div>
+
+      <hr>
+{/block}

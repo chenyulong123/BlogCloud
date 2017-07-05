@@ -1,0 +1,61 @@
+{extend name="index/index"}
+{block name="main"}
+
+
+
+        <!-- 博客列表 -->
+        <div class="span9">
+		  <div class="row-fluid">
+			<div class="page-header">
+				<h1>UID-IMAGES <small>用户相册列表</small></h1>
+			</div>
+
+
+
+			<table class="table table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>用户名</th>
+						<th>相册数量</th>
+						
+					</tr>
+				</thead>
+
+				<tbody>
+				{volist name='$list' id='vo'}
+				<tr onclick="location.href='{:url('/adimagelist',['id'=>$vo['id'],'name'=>$vo['name'],'imgcount'=>$vo['imgcount']])}';" class="list-users btn-image">
+					<td>{$vo.id}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.imgcount}</td>
+					
+				</tr>
+				{/volist}
+				</tbody>
+			</table>
+            
+           
+			  
+			   
+			   	   
+
+			  
+		
+
+
+				
+			</div>
+
+
+			
+		  </div>
+        </div>
+      </div>
+
+      <hr>
+
+{/block}
+
+
+
+{block name="myimagesjs"}

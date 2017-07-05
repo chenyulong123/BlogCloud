@@ -1,0 +1,81 @@
+{extend name="blog/index"}
+{block name="main"}
+
+
+
+<style type="text/css">
+.nav ul li.fenglei a { 
+  background:#fff; 
+  color:#90c044; 
+  -webkit-border-radius:5px 5px 0 0; 
+  -moz-border-radius:5px 5px 0 0; 
+  border-radius:5px 5px 0 0; 
+}
+.number { height:20px;width:40px; }
+.last-col a { color:#90c044; }
+</style>
+<div class="container">
+      <div class="content">
+        <div class="current-blog">
+            <span class="subCurrent">
+    <div style='float:left'>
+    当前博客：<a title="在新窗口中查看：蒂法 (http://queentifa.blogbus.com" class="pub_blogName01" target="_blank" href="http://queentifa.blogbus.com">蒂法</a>
+    </div>
+    <div style='float:left;margin-left:10px'>
+        <a id="switch_blog" onclick="toggleMenu('#dm_changeBlog')" title="切换当前博客" class="pub_subLink" href="javascript:void(0)">[切换博客]</a>
+        <ul style="display: none;" class="pub_dropmenu change_blog" id="dm_changeBlog">
+            
+            <li><a onclick="hideMenu('#dm_changeBlog');return false;" href="/7234306/categories/categories">
+                蒂法</a></li>
+            
+        </ul>
+    </div>
+    <script type="text/javascript">
+    function toggleMenu(selector){
+        $(selector).slideToggle('fast');
+    }
+    </script>
+</span>
+        </div>
+       
+  
+        <!--title end-->   
+          <form method="post" action="/7234306/categories" onsubmit="return confirmDel();" name="sortForm">
+            <table cellpadding="0" cellspacing="0" class="pub_list01 pri_blogPostList data-table">
+              <thead>
+                 <tr>
+                 
+                    <th width="30%" class="second-col">分类名称</th>
+                    <th width="30%" class="second-col" style="text-align:left">文章数</th>
+                    <th width="30%" class="last-col">操作</th>
+                  </tr>
+              </thead>
+               <tbody>
+               {foreach $list as $v}
+               
+                     <tr>
+                  
+                    <td  class="align-left">{$v['category']}</td>
+                    <td  class="align-left">{$v['count(title)']}</td>
+                    <td class="last-col"><a href="/blog/categorydetail/{$v['category']}">查看</a></td>
+                  </tr>
+              {/foreach}
+                  </tbody>
+                 
+            </table>
+           
+          </form>
+        <!--main end-->
+        </div>
+        
+</div>
+        <script type="text/javascript" src="/static/other/.com/msg_count"></script>
+    <script type="text/javascript">
+    $('body').click(function(e){
+    if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+    $('.pub_dropmenu').slideUp('fast');
+    }
+    })
+    </script>
+
+    {/block}

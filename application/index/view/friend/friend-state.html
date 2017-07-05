@@ -1,0 +1,123 @@
+{extend name="friend/friend-list"}
+{block name="friend"}
+
+<style type="text/css">
+.nav ul li.xinxianshi a { 
+  background:#fff; 
+  color:#90c044; 
+  -webkit-border-radius:5px 5px 0 0; 
+  -moz-border-radius:5px 5px 0 0; 
+  border-radius:5px 5px 0 0; 
+}
+.container {font-size: 14px;}
+</style>
+<div class="content">
+	<div class="container">
+ 
+  <div id="pub_main">
+    <style>
+        .noticeInfo {
+        background:#FFFDD7 url(images/icon_info.gif) no-repeat scroll 12px 13px;
+        border:1px solid #FEE8BD;
+        line-height:150%;
+        margin:20px 20px 0;
+        padding:10px 0 8px 33px;
+        }
+    </style>
+    <div class="noticeInfo" style="display:none;">
+              <p>您的好友暂时没有新动态，<a href="/add">添加更多好友</a>试试~</p>
+              <p style="margin-bottom: 0px;">
+            </p>
+    </div>   
+  
+    <div id="minifeedPage">
+      <div class="minifeedList" id="list">
+      </div>
+      <div class="mf_navi">
+      <a href="#" title="上一页" id="prev" onclick="showPage(minifeeds.currentPage-1);return false;">上一页</a>
+      <a href="#" title="下一页" id="next" onclick="showPage(minifeeds.currentPage+1);return false;">下一页</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+$('li.menuFriendClass').addClass('actived');
+$('a.submenuMinifeed').addClass('actived');
+var minifeeds = {
+  currentPage:1,
+  pageSize:20,
+  maxPage:-1,
+  loaded:0,
+  data:[],
+  eof:false,
+  bof:true,
+  load:function () {
+    if (minifeeds.loaded > 7) {
+      return 0;
+    }
+    $.ajax({
+        beforeSend:function(xhr){
+          //xhr.setRequestHeader('Accept', 'text/json');
+        },
+        type:'GET',
+        success: function(msg){
+         var m = $('<div>'+msg+'</div>').find('li');
+         m.each(function(k,v){minifeeds.data.push(v);});
+        },
+        dataType: 'html',
+        async: false,
+        url:'http://friend.home.blogbus.com/minifeed/daily_minifeed?d='+minifeeds.loaded
+    });
+    minifeeds.loaded++;
+    return 1;
+  },
+  showPage:function(p){
+    if (p < 1) {
+      return;
+    }
+    if (minifeeds.maxPage >=0 && p > minifeeds.maxPage) {
+        return;
+    }
+    minifeeds.currentPage = p;
+    while (minifeeds.data.length < minifeeds.pageSize * p) {
+      if (minifeeds.load() == 0) {
+        minifeeds.maxPage = p;
+        break;
+      }
+    }
+    minifeeds.bof = (p == 1);
+    minifeeds.eof = (minifeeds.maxPage >=0 && p >= minifeeds.maxPage);
+    
+    $('#list').html('');
+    for (var i = 0; i < minifeeds.pageSize; i++) {
+      var offset = minifeeds.pageSize * (p - 1) + i;
+      if (offset >= minifeeds.data.length) {
+        break;
+      }
+      $('#list').append(minifeeds.data[offset]);
+    }
+    
+  }
+}
+function showPage(p) {
+  minifeeds.showPage(p);
+  minifeeds.bof ? $('#prev').addClass('disabled') : $('#prev').removeClass('disabled');
+  minifeeds.eof ? $('#next').addClass('disabled') : $('#next').removeClass('disabled');
+}
+showPage(1);
+if (minifeeds.data.length==0) {
+    $('#minifeedPage').hide();
+    $('.noticeInfo').show();
+}
+</script>
+		<script type="text/javascript" src="other/.com/msg_count"></script>
+	<script type="text/javascript">
+	$('body').click(function(e){
+	if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+	$('.pub_dropmenu').slideUp('fast');
+	}
+	})
+	</script>
+
+{/block}

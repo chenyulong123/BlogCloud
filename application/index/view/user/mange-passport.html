@@ -1,0 +1,93 @@
+{extend name="user/mange-msg" /}
+{block name="main"}
+<script type="text/javascript">
+        function modifyPass(){
+            var info1 = $('#recipient-pass').val();
+            var info2 = $('#recipient-repass').val();
+            if(info1 != info2)
+            {
+                $.ajax({
+                    type: 'post',
+                    url: '/UserInfo/User_ModPass',
+                    data: {"pass": info1, "repass": info2},
+                    dataType: 'json',
+                    success: function (data){
+                        alert('修改成功');
+                    },
+                    error: function (){
+                        alert('修改失败');
+                    }
+                });
+            } else {
+                console.log('两次密码一样');
+            }
+
+        }
+</script>
+
+<div class="content">
+	<div class="container">
+		<div class="passport-outter">
+			<div class="passport-inner">
+				<div class="inner-info">
+					<div class="pass-tx">
+						<div>
+							<img src="/static/images/avatar_0_200.jpg" width="120" height="120">
+						</div>
+					</div>
+					<div class="pass-info">
+
+								<span><span>用户名：</span><span style="color:#aaa">{$_SESSION['name']}</span></span>
+
+								<span><span>密&nbsp;&nbsp;&nbsp;码：</span><span style="color:#aaa">********</span></span>
+
+
+						<button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="background-color: #90c044; color: #fff">修改密码</button>
+
+						<!--模态框-->
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<h4 class="modal-title" id="exampleModalLabel">修改密码</h4>
+									</div>
+									<div class="modal-body">
+										<form>
+											<div class="form-group">
+												<label for="recipient-name" class="control-label">原始密码:</label>
+												<input type="text" class="form-control" id="recipient-pass">
+											</div>
+											<div class="form-group">
+												<label for="message-text" class="control-label">新密码:</label>
+                                                <input type="text" class="form-control" id="recipient-repass" name="repass">
+												<!--<textarea class="form-control" id="message-text"></textarea>-->
+											</div>
+										</form>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button type="button" class="btn btn-primary" onclick="modifyPass()" data-dismiss="modal">提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--模态框结束-->
+                        <br>
+                        <br>
+								<span><span>所在地区：</span><span style="color:#aaa">111</span></span>
+								<span><i style="color:#bbb">
+                                        该用户已通过验证</i>
+                                </span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+    {/block}
+
+
+

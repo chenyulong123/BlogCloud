@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>好友列表_博客大巴</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
+	<link href="/static/css/boot/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/css/user/boilerplate.css" rel="stylesheet" type="text/css">
+	<link href="/static/css/user/base.css" rel="stylesheet" type="text/css">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="">
+	<link rel="apple-touch-icon-precomposed" href="">
+	<link rel="shortcut icon" href="">
+	<script src="/static/js/jquery-1.9.1.min.js"></script>
+	<!--[if lt IE 9]>
+	<script src="/static/js/html5.js"></script>
+	<script type="text/javascript" src="/static/js/selectivizr-min.js"></script>
+	<![endif]-->
+	<!--[if lt IE 7]>
+	<script src="/static/js/minmax.js"></script>
+	<![endif]-->
+	<script type="text/javascript" src="/static/js/picobox.js"></script>
+	<script type="text/javascript" src="/static/js/user/picobox_beauty.js"></script>
+	<link rel="stylesheet" href="/static/css/user/picobox.css" type="text/css"  />
+	<link rel="stylesheet" href="/static/css/user/picobox_beauty.css" type="text/css"  />
+	<script language="javascript">
+        function doCheck(ischecked) {
+            $('input.mch').each(function(i){
+                this.checked = ischecked;
+            });
+        }
+        function getChecked() {
+            var ids = '';
+            $('input.mch').each(function(i){
+                if (this.checked) {
+                    ids += this.value + ',';
+                }
+            });
+            if (ids != '') {
+                ids = ids.substr(0, ids.length-1);
+            }
+            return ids;
+        }
+        function confirmDel() {
+            var ids = getChecked();
+            if (ids.length == '') {
+                alert('请选择要删除的记录。');
+                return false;
+            }
+            if (!confirm('真的要删除选中的记录吗？')) {
+                return false;
+            }
+            return true;
+        }
+        function welcomeText(username) {
+            var time = ['子时', '丑时', '寅时', '卯时', '辰时', '巳时', '午时', '未时', '申时', '酉时', '戌时', '亥时'];
+            var arr_week = ['', '星期一','星期二','星期三','星期四','星期五','星期六','星期日'];
+            hour = new Date().getHours();
+            year = new Date().getFullYear();
+            month = new Date().getMonth();
+            dayx = new Date().getDate();
+            monthx = month+1;
+            week = arr_week[new Date().getDay()];
+
+            hourx = Math.ceil(hour/2);
+            if (hourx == 12) { hourx = 0; }
+            var today = year+"年"+monthx+"月"+dayx+"日 "+week;
+            second = new Date().getSeconds();
+            if(second % 2 == 0){
+                welcome = "<span class=\"greeting\" title=\""+today+"\"><strong></strong>&nbsp;&nbsp;</span>";
+            }
+            else{
+                welcome = "<span class=\"greeting\" title=\""+today+"\"><strong>" + time[hourx] +  "</strong>&nbsp;&nbsp;" + text[hourx] + "</span>";
+            }
+            return welcome;
+        }
+	</script>
+</head>
+<body>
+<div class="header">
+	<div class="header-inner">
+		<div class="user-info">
+			<div class="user-avatar">
+      					<span class="pie" title="">
+      						<a href="#">
+      							<img src="{$_SESSION['icon']}" alt="" class="pie">
+      						</a>
+      					</span>
+			</div>
+			<h2 class="user-name">{$_SESSION['name']} &nbsp;<a href="{:url('/index/Log_out')}" style='color:#666'>退出</a></h2>
+			<p id="prompt-msg"><script type="text/javascript">document.write(welcomeText("blogbus_KyeB0474"))</script></p>
+		</div>
+		<div class="utilities">
+			<ul>
+				<li class="dashboard"><a href="{:url('/User')}"><span class="pie icon"><span class="pie indicator" id="msgcount">0</span></span>管理中心</a></li>
+				<li class="new-entry"><a href="{:url('index/blog/newblog')}"><span class="pie icon"></span>新日志</a></li>
+				<li class="blog-list"><a href="{:url('index/blog/index')}"><span class="pie icon"></span>博客</a></li>
+				<li class="album-list"><a href="{:url('/Album')}"><span class="pie icon"></span>相册</a></li>
+				<li class="friend-list"><a href="{:url('/Friend')}"><span class="pie icon"></span>好友</a></li>
+				<li class="events"><a href="{:url('/activity')}"><span class="pie icon"></span>活动</a></li>
+				<li class="vip"><a href="{:url('index/vip/index')}"><span class="pie icon"></span>VIP</a></li>
+				<li class="home"><a href="{:url('/index')}"><span class="pie icon"></span>首页</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    (function (){
+        $('#allSubMenus').css('display','none');
+        var _menuEff={};
+        _menuEff.cur=null;
+        function switchMenu(id) {
+            var menu_html = (_menuEff.cur.hasClass('menuBlogClass') && id=='menuBlog' && menu) ? menu : $('#allSubMenus #'+id).html();
+            $('#appSubMenuBlock').html(menu_html).css('paddingLeft', $('#allSubMenus #'+id).css('paddingLeft'));
+        }
+        $('ul.menus li').hover(function(e){
+                _menuEff.cur=_menuEff.cur||$('ul.menus li.actived');
+                $('ul.menus li').removeClass('actived');
+                var id = 'menu'+this.className.match(/menu(\w+)Class/)[1];
+                switchMenu(id);
+                $(this).addClass('actived');
+            },
+            function(e){
+                if (e.relatedTarget.tagName!='DIV') {
+                    return;
+                }
+                if (_menuEff.cur && !$(e.relatedTarget).hasClass('subMenus')) {
+                    $('ul.menus li').removeClass('actived');
+                    _menuEff.cur.addClass('actived');
+                    var id = _menuEff.cur[0].className.match(/(menu\w+)Class/)[1];
+                    switchMenu(id);
+                }
+            });
+        $('div.mainNavi').mouseout(function(e){
+            if (_menuEff.cur && e.relatedTarget.id=='wrapper') {
+                $('ul.menus li').removeClass('actived');
+                _menuEff.cur.addClass('actived');
+                var id = _menuEff.cur[0].className.match(/(menu\w+)Class/)[1];
+                switchMenu(id);
+            }
+        });
+    })();
+
+</script>
+
+<!--main start-->
+<link href="/static/css/friend.css" rel="stylesheet" type="text/css">
+
+<div class="nav">
+	<div class="container">
+		<ul>
+			<li class="xinxianshi"><a href="{:url('/Friend/Friend_State')}" class="pie">好友新鲜事</a></li>
+			<li class="liebiao"><a href="{:url('/Friend/index')}" class="pie">好友列表</a></li>
+			<li class="yaoqing"><a href="{:url('/Friend/Friend_Invite')}" class="pie">好友私信</a></li>
+			<li class="sousuo"><a href="{:url('/Friend/Friend_Search')}" class="pie">搜索好友</a></li>
+		</ul>
+	</div>
+</div>
+
+{block name="friend"}
+
+<style type="text/css">
+	.nav ul li.liebiao a {
+		background:#fff;
+		color:#90c044;
+		-webkit-border-radius:5px 5px 0 0;
+		-moz-border-radius:5px 5px 0 0;
+		border-radius:5px 5px 0 0;
+	}
+	.container {font-size: 14px;}
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(':text,textarea').mouseover(function(){$(this).focus();});
+        $(".fdcard").mouseover(function(){
+            $(this).attr({"class":"fdcard fdcardon"});
+            $(this).find('.fd_del').show();
+        });
+        $(".fdcard").mouseout(function(){
+            $(this).attr({"class":"fdcard"});
+            $(this).find('.fd_del').hide();
+        });
+        input = $("form[name='search_form'] input[name='content']");
+        input.val("如:a.blogbus.com");
+        input.focus(function(){
+            if (input.val()=='如:a.blogbus.com')
+            {
+                input.val('');
+            }
+        });
+        $("form[name='search_form'] select[name='search_type']").change(function(){
+            input.val('');
+        });
+        $("form[name='search_form']").submit(function(){
+            if (input.val()=='如:a.blogbus.com')
+            {
+                input.val('');
+            }
+        });
+        $('.fd_nick').blur(function(){nickEdit.hide();});
+    });
+    $('li.menuFriendClass').addClass('actived');
+    $('a.submenuFriendList').addClass('actived');
+</script>
+<div class="ajaxInfo" style="display:none;">
+	<div class="ajaxInfo_1">
+		<div class="ajaxInfo_2">
+			<div class="ajaxInfo_3">
+				<div class="ajaxInfo_4">
+					<div class="ajaxInfoSuc">删除好友已成功</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="content">
+	<div class="container">
+		<div><span style="color:#90c044;">我的好友</span></div>
+		<div class="friend-all">
+			<!--main start-->
+			{volist name="fr_list" id="vo"}
+			<div id="pub_main">
+				<div class="friend-card" id="friend_0">
+					<!--<a href="#" target="_blank">-->
+					<!--<img src="/static/images/avatar_12855045_96.jpg" width="72" height="72" alt="#" >-->
+					<!--</a>-->
+					<div class="friend-info">
+						<div class='cb'>
+							<div  style='float:left;width:175px'>
+								<a title="#" class="fd_name">{$vo}</a>
+
+
+							</div>
+							<br/>
+							<br/>
+							<div style="font-size:12px;"  class='cb'>
+								<button class="delete btn btn-default" type="submit">删除</button>
+								&nbsp;&nbsp;&nbsp;
+
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">发私信</button>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+				</div>
+				{/volist}
+			</div>
+			<!--main end-->
+
+		</div>
+
+		<div class="paginator" style='clear:both'>
+			<span class='pager'><span class="total">共1页</span> <span class="pages"> <span class="current">1</span></span></span>
+		</div>
+	</div>
+
+
+    <!--好友私信框-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <input type="hidden" value="<?= $_SESSION['id']?>">
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">Message:</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" value="Send Message" id="send_msg">Send Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--好友私信框结束-->
+
+    <!--好友发私信-->
+    <script>
+        $(function(){
+            $('#send_msg').click(function(){
+                var msg = $('.form-control').val();
+                $.ajax({
+                    type: 'post',
+                    url: '/Friend/Private_Message',
+                    data: {"msg":msg},
+                    dataType: 'json',
+                    success: function (data){
+                        if (data) {
+                            alert('发送成功');
+                        } else {
+                            alert('发送失败');
+                        }
+                    },
+                    error: function (){
+                        alert('发送失败');
+                    }
+                });
+            });
+        });
+    </script>
+    <!--好友发私信结束-->
+
+	<script type="text/javascript">
+        $('body').click(function(e){
+            if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+                $('.pub_dropmenu').slideUp('fast');
+            }
+        })
+	</script>
+
+	<script>
+        $(function(){
+            $('.delete').click(function(){
+                var name = $('.fd_name').html();
+                console.log(name);
+                $.ajax({
+                    type: 'get',
+                    url: '/Friend/Delete_Friend?name=' + name,
+                    dataType: 'json',
+                    success: function (data){
+                        if (data) {
+                            alert('删除成功');
+                        } else {
+                            alert('删除失败');
+                        }
+                    },
+                    error: function (){
+                        console.log('发送失败');
+                    }
+                });
+            });
+        })
+	</script>
+
+
+	{/block}
+
+	<div id="footer" class="footer">
+		<div class="utilityMenu">
+			<a href="#">媒体报道</a>&nbsp;|&nbsp;
+			<a href="#">关于我们</a>&nbsp;|&nbsp;
+			<a href="#">工作机会</a>&nbsp;|
+			&nbsp;<a href="#">相关法律</a>&nbsp;|
+			&nbsp;<a href="#">广告服务</a>&nbsp;|
+			&nbsp;<a href="#">申请博客</a>&nbsp;|&nbsp;
+			<a href="#">网站地图</a>&nbsp;|&nbsp;
+			<a href="#">合作伙伴</a>
+		</div>
+		<div class="copyright">&copy; 2002-2017 BlogBus.com, All Rights Reserved. 博客大巴  版权所有  沪ICP B2-20080056号
+		</div>
+		<div class="ajaxInfo msg_success" style="display:none;" id="flashMessage">
+			<div class="message"></div>
+		</div>
+
+
+		<!--帮助-->
+
+		<div style="display:none;">
+		</div>
+	</div>
+
+
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script src="/static/js/boot/bootstrap.min.js"></script>
+</body>
+</html>
+<!--加载用户朋友数据-->
+<!--<script>-->
+<!--$(document).ready(function(){-->
+<!--$.ajax({-->
+<!--type: 'get',-->
+<!--url: '/Friend/Friend_List',-->
+<!--dataType: 'json',-->
+<!--success: function (data){-->
+<!--console.log(data);-->
+<!--$('.fd_name').html(data[0].name);-->
+<!--},-->
+<!--error: function (){-->
+<!--console.log("发送请求失败");-->
+<!--}-->
+<!--});-->
+<!--});-->
+<!--</script>-->

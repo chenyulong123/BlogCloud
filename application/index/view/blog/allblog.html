@@ -1,0 +1,59 @@
+{extend name="blog/index"}
+{block name="main"}
+   
+<style type="text/css">
+.nav ul li.quanbu a { 
+  background:#fff; 
+  color:#90c044; 
+  -webkit-border-radius:5px 5px 0 0; 
+  -moz-border-radius:5px 5px 0 0; 
+  border-radius:5px 5px 0 0; 
+}
+.content {padding-top:20px;padding-bottom: 120px;}
+</style>
+<div class="container">
+        <div class="content">
+        <h2>全部博客 <span><a class="pub_subLink" href="/blog/newblog">[新建博客]</a></span></h2>
+        <br />
+                           <div class="blog-col">
+            <div class="blog-col-blog">
+                <a href="/7234385/posts/">{$_SESSION['name']}</a><br/><br/>
+                <span>
+                                            <a href="/7234385/user_blog/authors" title="管理作者">角色：创建者</a>
+                                                                                    </span>
+                  <span><a href="/7234385/posts/" title="管理日志">文章数：14</a></span>
+                  <span><a href="/7234385/comments/items" title="管理评论">评论数：12</a></span>
+            </div>
+            <div class="blog-edit">
+                <span class="eChoosen eDefault" title="当前默认博客"  >
+                                            <span class="e-ico pie"></span>
+                                    </span>
+                <span class="eEdit" title='发布日志'>
+                    <a href="/blog/newblog" class="pub_subLink"><span class="e-ico pie"></span></a>
+                </span>
+                                    <span class="eOption" title='设定博客'>
+                          <a href="/blog/set" class="pub_subLink"><span class="e-ico pie" ></span></a>
+                      </span>     
+                      <span class="eDelete" title='删除博客'>
+                          <a href="/7234385/blogs/confirm"><span class="e-ico pie"></span></a>
+                      </span> 
+                  
+<!-- end -->
+            </div>
+        </div>
+             
+        <!--main end-->
+        <form method="post" action="/blogs/item" name="blogForm" style="display:none;"><input name="REQUEST_METHOD" value="PUT" type="hidden" /><input type="hidden" name="id"/><input type="hidden" name="type"/></form>        <script type="text/javascript">
+            $('.shareList li:last-child').css({ 'margin-bottom': '1px', 'background-image': 'none' }); 
+        </script>
+        </div>
+</div>
+		<script type="text/javascript" src="/static/other/.com/msg_count"></script>
+	<script type="text/javascript">
+	$('body').click(function(e){
+	if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+	$('.pub_dropmenu').slideUp('fast');
+	}
+	})
+	</script>
+  {/block}

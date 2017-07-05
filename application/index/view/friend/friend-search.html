@@ -1,0 +1,190 @@
+{extend name="friend/friend-list"}
+{block name="friend"}
+<!--向后台发送数据-->
+<script>
+    $(function (){
+        for (var i = 0; i < 5; i++) {
+            (function (i){
+                $('#addFiend' + i).click(function () {
+                    var info = $('#friends' + i).attr('value');
+                    console.log(info);
+                    $.ajax({
+                        type:'get',
+                        url: '/Friend/Add_Friend?id=' + info,
+                        dataType: 'json',
+                        success: function(data){
+                            console.log(data);
+                            alert('请求已发送');
+                            $('#addFiend' + i).hide();
+                            $('#friends' + i).hide();
+                        },
+                        error: function(){
+                            alert('发送请求失败');
+                        },
+                    });
+                })
+            })(i);
+
+        }
+
+    });
+</script>
+<!--向后台发送数据结束-->
+
+
+<!--搜索显示可能认识的好友-->
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: 'get',
+            url: '/Friend/Search_MayK_Friend',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    $('#company' + i).text(data[i].name);
+                }
+            },
+            error: function (data){
+                alert('没有可添加的好友');
+            }
+        });
+    });
+</script>
+<!--搜索显示可能认识的好友结束-->
+
+<script type="text/javascript">
+    $('li.menuFriendClass').addClass('actived');
+    $('a.submenuFriendAdd').addClass('actived');
+    $(':text,textarea').mouseover(function () {
+        $(this).focus();
+    });
+
+    //  加载搜索好友结果
+    $(function () {
+        $('#sub').click(function () {
+            var info = $('#dema').val();
+            $.ajax({
+                type: 'post',
+                url: '/Friend/Search_Friend',
+                data: {"domain": info},
+                dataType: 'json',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $('#friends' + i).html(data[i].name);
+                        $('#friends' + i).attr('value', data[i].user_id);
+                        $('#addFiend' + i).html('<a class="btn btn-default" href="#" role="button">添加好友</a>');
+                    }
+                },
+                error: function () {
+                    console.log('请求失败');
+                }
+            })
+        });
+    });
+    //  END
+
+</script>
+<style type="text/css">
+    .nav ul li.sousuo a {
+        background: #fff;
+        color: #90c044;
+        -webkit-border-radius: 5px 5px 0 0;
+        -moz-border-radius: 5px 5px 0 0;
+        border-radius: 5px 5px 0 0;
+    }
+
+    .container {
+        font-size: 14px;
+    }
+</style>
+<div class="content">
+    <div class="container">
+        <div><span style="color:#90c044;">查找站内好友</span></div>
+        <div class="friend-search">
+            <div>
+                <input name="search_type_switch" type="radio" value="blogurl">
+                博客名称&nbsp;&nbsp;&nbsp;
+            </div>
+            <br/>
+            <div>
+                <!--<form name='search_form_blogurl'>-->
+                博客名称：<input id="dema" type="text" style="width:100px; margin-bottom:1px; color:#999;"/>
+                <button id="sub" button="submit" class="btn btn-primary" data-toggle="collapse"
+                        data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">查找
+                </button>
+
+            </div>
+            <br/>
+
+            <!--搜索结果显示框-->
+            <div class="collapse" id="collapseExample">
+                <div class="well">
+
+                    <div class="row">
+                        <div class="col-md-6 one" id="friends0"></div>
+                        <div class="col-md-6" id="addFiend0"></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" id="friends1"></div>
+                        <div class="col-md-6" id="addFiend1" value=""></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" id="friends2"></div>
+                        <div class="col-md-6" id="addFiend2"></div>
+                        <input type="hidden" value="" id="uid2">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" id="friends3"></div>
+                        <div class="col-md-6" id="addFiend3"></div>
+                        <input type="hidden" value="" id="uid3">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" id="friends4"></div>
+                        <div class="col-md-6" id="addFiend4"></div>
+                        <input type="hidden" value="" id="uid4">
+                    </div>
+                </div>
+            </div>
+            <!--搜索结果显示框结束-->
+
+            <br/>
+            <div><span style="color:#90c044;">推荐好友</span></div>
+
+            <div class="friend-all">
+                <div class="file-col">
+                    <span>
+                        <a href="#" title="J326" target="_blank"><img src="/static/images/avatar_1357293_48.jpg"/></a>
+                    </span>
+                    <span class="desc">
+                            <span href="#" title="J326" target="_blank" id="company0"> </span>
+                    </span>
+                </div>
+
+                <div class="file-col">
+                    <span>
+                        <a href="#" title="J326"><img src="/static/images/avatar_1357293_48.jpg"/></a>
+                    </span>
+                    <span class="desc">
+                            <span href="#" title="J326" id="company1"> </span>
+                    </span>
+                </div>
+
+                <div class="file-col">
+                    <span>
+                        <a href="#" title="J326"><img src="/static/images/avatar_1357293_48.jpg"/></a>
+                    </span>
+                    <span class="desc">
+                            <span href="#" title="J326" id="company2"> </span>
+                    </span>
+                </div>
+
+                <!--可能认识的人结束-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--main end-->
+{/block}

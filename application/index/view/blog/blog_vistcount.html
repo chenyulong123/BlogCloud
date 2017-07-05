@@ -1,0 +1,224 @@
+﻿{extend name="blog/index"}
+{block name="main"}
+
+<link href="/static/css/blog_index/stat.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+
+.nav ul li.tongji a { 
+
+  background:#fff; 
+
+  color:#90c044; 
+
+  -webkit-border-radius:5px 5px 0 0; 
+
+  -moz-border-radius:5px 5px 0 0; 
+
+  border-radius:5px 5px 0 0; 
+
+}
+
+</style>
+
+<div class="container">
+
+  <div class="content">
+
+     <div class="current-blog">
+
+            
+
+            <span class="subCurrent">
+  <div style='float:left'>
+  当前博客：<a title="在新窗口中查看：蒂法 (http://queentifa.blogbus.com" class="pub_blogName01" target="_blank" href="http://queentifa.blogbus.com">蒂法</a>
+  </div>
+  <div style='float:left;margin-left:10px'>
+    <a id="switch_blog" onclick="toggleMenu('#dm_changeBlog')" title="切换当前博客" class="pub_subLink" href="javascript:void(0)">[切换博客]</a>
+    <ul style="display: none;" class="pub_dropmenu change_blog" id="dm_changeBlog">
+      
+      <li><a onclick="hideMenu('#dm_changeBlog');return false;" href="/7234306/stat/stat">
+        蒂法</a></li>
+      
+    </ul>
+  </div>
+  <script type="text/javascript">
+  function toggleMenu(selector){
+    $(selector).slideToggle('fast');
+  }
+  </script>
+</span>
+        </div>
+
+        <div class="stats">
+
+      <h3>访问量和博客统计：</h3>
+
+      <div id="canvas" style="width:400px;height:330px;float:right"></div>
+
+     
+
+       
+
+        <div class="statSum" style="width:320px; float:right;">
+
+                    <h3>统计概览：</h3>
+
+                    <br/>
+
+                    <script language="javascript" type="text/javascript" src="//quote.users.51.la/?id=19224691&amp;mb=4"></script>
+
+                </div>  
+
+        <div class="clearfix"></div>
+
+                <br/><br/>
+
+                <div class="pub-topline"></div>
+
+                <div class="statarea" style="margin-right: 50px; ">
+
+                   <table cellpadding="0" cellspacing="0" class="table table-hover bg-info">
+
+                      <tr>
+
+                        <th style="width:300px;color:#90c044">访问量前五名日志</th>
+
+                        <th style="width:65px;color:#90c044">访问量</th>
+
+                      </tr>
+                      {foreach $count as $c}
+                      <tr align="center" color="#90c044">
+                        <td style="width:300px;color:#90c044">{$c['title']}</td>
+                        <td style="width:65px;color:#90c044">{$c['count']}</td>
+                      </tr>
+                      {/foreach}
+                   </table>
+
+           
+
+          <div class="clearfix"></div>        
+
+        </div>
+
+                <div class="statarea" style="margin-right: 50px; ">
+
+                   <table cellpadding="0" cellspacing="0" class="table table-hover bg-info">
+
+                      <tr>
+
+                        <th style="width:300px;color:#90c044">评论量前五名日志</th>
+
+                        <th style="width:65px;color:#90c044">评论量</th>
+
+                      </tr>
+                      {foreach $comment as $l}
+                      <tr align="center" color="#90c044">
+                        <td style="width:300px;color:#90c044">{$l['title']}</td>
+                        <td style="width:65px;color:#90c044">{$l['love']}</td>
+                      </tr>
+                      {/foreach}
+                   </table>
+
+                
+          <div class="clearfix"></div>        
+
+        </div>
+
+        
+
+        <div class="statarea">
+
+          <table cellpadding="0" cellspacing="0" class="pub_list01 pri_blogPostList">
+
+                      <tr>
+
+                        <th style="width:300px;">访问来源前十位域名</th>
+
+                        <th style="width:55px;">访问量</th>
+
+                      </tr>
+
+                                              <tr>
+
+                        <td>
+
+                          <a href="http://www.blogbus.com" target="_blank">www.blogbus.com</a>
+
+                           </td>
+
+                        <td>1</td>
+
+                      </tr>
+
+                                                                           
+
+                    </table>
+
+                    <div class="statmore" style="float:right"><a href="/7234306/stat/domain">更多来源统计...</a></div>
+
+        </div>
+
+        
+
+        <div class="statarea" style="margin-right: 50px; ">
+
+          <table cellpadding="0" cellspacing="0" class="pub_list01 pri_blogPostList">
+
+                      <tr>
+
+                        <th style="width:300px;">前十个来源关键词</th>
+
+                        <th style="width:55px;">访问量</th>
+
+                      </tr>
+
+                                          </table>
+
+        </div>
+
+        <div class="statarea">
+
+          <table cellpadding="0" cellspacing="0" class="pub_list01 pri_blogPostList">
+
+                      <tr>
+
+                        <th style="width:377px;">最近来源关键词</th>
+
+                      </tr>
+
+                                          </table>
+
+                    <div class="statmore" style="float:right"><a href="/7234306/stat/keyword">更多关键字来源...</a></div>
+
+        
+
+        </div>
+
+        <div class="clearfix"></div>
+
+    </div>
+
+    <div class="pub-topline"></div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+     
+
+    <script type="text/javascript" src="/static/other/.com/msg_count"></script>
+  <script type="text/javascript">
+  $('body').click(function(e){
+  if(!$(e.target).hasClass('pub_subLink') && !$(e.target).parents().hasClass('pub_dropmenu')){
+  $('.pub_dropmenu').slideUp('fast');
+  }
+  })
+  </script>
+  {/block}

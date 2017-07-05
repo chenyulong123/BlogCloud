@@ -1,0 +1,81 @@
+{extend name="user/mange-msg" /}
+{block name="main"}
+<script src="/static/js/jquery-1.9.1.min.js"></script>
+<div class="content">
+	<div class="container">
+		<div><span style="color:#90c044;">{$_SESSION['name']}的个人信息</span></div>
+		<div class="personal-info">
+			<!--<div class="personal-tx">-->
+				<!--<span><img src="/static/images/avatar_12855046_200.jpg" width="150" height="150"></span>-->
+				<!--<span><a href="#">更换头像</a></span>-->
+			<!--</div>-->
+			<div class="personal-set">
+
+          			<table border="0" cellspacing="0" cellpadding="0" class="form-table">
+            			<tr>
+              				<th><label for="name">昵称：</label></th>
+              				<td>{$_SESSION['name']}</td>
+           	 			</tr>
+            			<tr>
+              				<th><label>性别：</label></th>
+              				<td id="sex"></td>
+            			</tr>
+            			<tr>
+              				<th><label>生日：</label></th>
+              				<td id="birth"></td>
+           				</tr>
+           				<tr>
+              				<th><label >星座：</label></th>
+              				<td id="constellation"></td>
+            			</tr>
+            			<tr>
+              				<th><label>血型：</label></th>
+              				<td id="blood"></td>
+            			</tr>
+           				<tr>
+              				<th><label >所在地：</label></th>
+              				<td id="location"></td>
+            			</tr>
+            			<tr>
+              				<th><label id="">个人简介：</label></th>
+              				<td id="description"></td>
+           					</tr>
+           			</table>
+				</div>
+		</div>
+
+	</div>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            type: 'get',
+            url: '/UserInfo/User_Info',
+            dataType: 'json',
+            success: function(data){
+                $('#description').html(data.intro);
+                $('#location').html(data.live_province + data.live_city);
+                $('#birth').html(data.birthday_year + '年' + data.birthday_month+ '月' + data.birthday_day + '日');
+                $('#constellation').html(data.constellation);
+                $('#blood').html(data.blood);
+                switch (data.sex) {
+                    case 0:
+                        $('#sex').html("女");
+                        break;
+                    case 1:
+                        $('#sex').html("男");
+                        break;
+                    case 2:
+                        $('#sex').html("保密");
+                }
+            },
+            error: function (){
+                console.log('失败');
+            }
+        })
+    });
+
+</script>
+{/block}

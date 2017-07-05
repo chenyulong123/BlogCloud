@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>{$title}</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
+    <link href="/static/css/blog_index/boilerplate.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/blog_index/base.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/blog_index/toastr.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/boot/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="/static/js/blog_index/jquery-1.9.1.min.js"></script>
+    <script src="/static/js/boot/bootstrap.min.js"></script>
+    <script src="/static/js/toastr.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="./static/js/blog/js/html5.js"></script>
+    <script type="text/javascript" src="./static/js/blog/selectivizr-min.js"></script>
+    <![endif]-->
+    <!--[if lt IE 7]>
+    <script src="./static/js/blog/js/minmax.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="/static/js/blog_index/picobox.js"></script>
+    <script type="text/javascript" src="/static/js/blog_index/picobox_beauty.js"></script>
+    <link rel="stylesheet" href="/static/css/blog_index/picobox.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/blog_index/picobox_beauty.css" type="text/css"/>
+    <style>
+        #page li{
+            background-color: red;
+        }
+    </style>
+    <script type="text/javascript" src="/static/js/blog_index/picobox.js"></script>
+    <script type="text/javascript" src="/static/js/blog_index/picobox_beauty.js"></script>
+    <link rel="stylesheet" href="/static/css/blog_index/picobox.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/blog_index/picobox_beauty.css" type="text/css"/>
+    <script language="javascript">
+        function doCheck(ischecked) {
+            $('input.mch').each(function (i) {
+                this.checked = ischecked;
+            });
+        }
+        function getChecked() {
+            var ids = '';
+            $('input.mch').each(function (i) {
+                if (this.checked) {
+                    ids += this.value + ',';
+                }
+            });
+            if (ids != '') {
+                ids = ids.substr(0, ids.length - 1);
+            }
+            return ids;
+        }
+        function confirmDel() {
+            var ids = getChecked();
+            if (ids.length == '') {
+                alert('请选择要删除的记录。');
+                return false;
+            }
+            if (!confirm('真的要删除选中的记录吗？')) {
+                return false;
+            }
+            return true;
+        }
+        function welcomeText(username) {
+            var time = ['子时', '丑时', '寅时', '卯时', '辰时', '巳时', '午时', '未时', '申时', '酉时', '戌时', '亥时'];
+            var text = ['夜半销魂，谁人歌', '雄鸡未鸣，身未起', '风雨如晦，平旦出', '旭日东升，无往复', '君子勿劳，朝食饱', '鸡栖于莳，河清定', '善行无迹，恒德足', '日过中天，骄未散 ', '哺鹊进食，斜阳归', '鸡栖于埘，日沉坡', '日暮将至，归田园', '人定归本，早安眠'];
+            var arr_week = ['', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+            hour = new Date().getHours();
+            year = new Date().getFullYear();
+            month = new Date().getMonth();
+            dayx = new Date().getDate();
+            monthx = month + 1;
+            week = arr_week[new Date().getDay()];
+
+            hourx = Math.ceil(hour / 2);
+            if (hourx == 12) {
+                hourx = 0;
+            }
+            var today = year + "年" + monthx + "月" + dayx + "日 " + week;
+            second = new Date().getSeconds();
+            if (second % 2 == 0) {
+                welcome = "<span class=\"greeting\" title=\"" + today + "\"><strong></strong>&nbsp;&nbsp;</span>";
+            }
+            else {
+                welcome = "<span class=\"greeting\" title=\"" + today + "\"><strong>" + time[hourx] + "</strong>&nbsp;&nbsp;" + text[hourx] + "</span>";
+            }
+            return welcome;
+        }
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <div class="user-info">
+            <div class="user-avatar">
+      					<span class="pie" title="">
+      						<a href="/index">
+      							<img src="/static/images/avatar_12855194_96.jpg" alt="" class="pie">
+      						</a>
+      					</span>
+            </div>
+            <h2 class="user-name">{$_SESSION['name']} &nbsp;<a
+                    href="{:url('/index/Log_out')}"
+                    style='color:#666'>退出</a></h2>
+            <p id="prompt-msg">
+                <script type="text/javascript">document.write(welcomeText("blogbus_ncIE4037"))</script>
+            </p>
+        </div>
+        <div class="utilities">
+            <ul>
+                <li class="dashboard"><a href="{:url('index/User/')}"><span class="pie icon"><span class="pie indicator" id="msgcount">0</span></span>管理中心</a>
+                </li>
+                <li class="new-entry"><a href="{:url('index/blog/newblog')}"><span class="pie icon"></span>新日志</a></li>
+                <li class="blog-list"><a href="{:url('index/blog/index')}"><span class="pie icon"></span>博客</a></li>
+                <li class="album-list"><a href="{:url('index/Album/index')}"><span class="pie icon"></span>相册</a></li>
+                <li class="friend-list"><a href="{:url('index/Friend/index')}"><span class="pie icon"></span>好友</a></li>
+                <li class="events"><a href="#"><span class="pie icon"></span>活动</a></li>
+                <li class="vip"><a href="{:url('index/vip/index')}"><span class="pie icon"></span>VIP</a></li>
+                <li class="home"><a href="{:url('index/index/index')}"><span class="pie icon"></span>首页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    (function () {
+        $('#allSubMenus').css('display', 'none');
+        var _menuEff = {};
+        _menuEff.cur = null;
+        function switchMenu(id) {
+            var menu_html = (_menuEff.cur.hasClass('menuBlogClass') && id == 'menuBlog' && menu) ? menu : $('#allSubMenus #' + id).html();
+            $('#appSubMenuBlock').html(menu_html).css('paddingLeft', $('#allSubMenus #' + id).css('paddingLeft'));
+        }
+
+        $('ul.menus li').hover(function (e) {
+                    _menuEff.cur = _menuEff.cur || $('ul.menus li.actived');
+                    $('ul.menus li').removeClass('actived');
+                    var id = 'menu' + this.className.match(/menu(\w+)Class/)[1];
+                    switchMenu(id);
+                    $(this).addClass('actived');
+                },
+                function (e) {
+                    if (e.relatedTarget.tagName != 'DIV') {
+                        return;
+                    }
+                    if (_menuEff.cur && !$(e.relatedTarget).hasClass('subMenus')) {
+                        $('ul.menus li').removeClass('actived');
+                        _menuEff.cur.addClass('actived');
+                        var id = _menuEff.cur[0].className.match(/(menu\w+)Class/)[1];
+                        switchMenu(id);
+                    }
+                });
+        $('div.mainNavi').mouseout(function (e) {
+            if (_menuEff.cur && e.relatedTarget.id == 'wrapper') {
+                $('ul.menus li').removeClass('actived');
+                _menuEff.cur.addClass('actived');
+                var id = _menuEff.cur[0].className.match(/(menu\w+)Class/)[1];
+                switchMenu(id);
+            }
+        });
+    })();
+    //$('#header').append('<div class="new"></div>');
+</script>
+
+<!--main start-->
+<style>
+    <!--
+    .utilities ul li.blog-list:before {
+        z-index: 1;
+        content: '';
+        position: absolute;
+        left: 40%;
+        top: 84%;
+        width: 0px;
+        height: 0px;
+        border-style: solid;
+        border-width: 7px;
+        border-color: transparent transparent #90c044 transparent;
+    }
+
+    /*...伪元素实现三角...*/
+
+    .utilities ul li.blog-list a {
+        color: #90c044;
+    }
+
+    .utilities ul li.blog-list a .icon {
+        background-color: #90c044;
+    }
+
+    -->
+</style>
+<link href="/static/css/blog_index/blog.css" rel="stylesheet" type="text/css">
+<div class="nav">
+    <div class="container">
+        <ul>
+            <li class="xinrizhi"><a href="/blog/newblog" class="pie">写新日志</a></li>
+            <li class="rizhi"><a href="/blog/index" class="pie">日志</a></li>
+            <li class="pinlun"><a href="/blog/comment" class="pie">评论</a></li>
+            <li class="fenglei"><a href="/blog/category" class="pie">分类</a></li>
+            <li class="biaoqian"><a href="/blog/tag" class="pie">标签</a></li>
+            <li class="lianjie"><a href="/blog/link" class="pie">友情链接</a></li>
+            <li class="shezhi"><a href="/blog/set" class="pie">博客设置</a></li>
+            <li class="tongji"><a href="/blog/count" class="pie">访问统计</a></li>
+            <li class="quanbu"><a href="{:url('index/blog/allblog')}" class="pie">全部博客</a></li>
+        </ul>
+    </div>
+</div>
+
+<link rel="stylesheet" href="/static/css/blog_index/cmt.css" type="text/css"  />
+<script type="text/javascript">
+</script>
+<style type="text/css">
+.nav ul li.pinlun a { 
+  background:#fff; 
+  color:#90c044; 
+  -webkit-border-radius:5px 5px 0 0; 
+  -moz-border-radius:5px 5px 0 0; 
+  border-radius:5px 5px 0 0; 
+}
+</style>
+<div class="container">
+	<div class="content">
+	     <div class="current-blog">
+	      <span class="subCurrent">
+
+
+	<script type="text/javascript">
+	function toggleMenu(selector){
+		$(selector).slideToggle('fast');
+	}
+	</script>
+</span>
+</h2>
+	      </div>
+		<div class="blog-submenus">
+				<strong>全部评论</strong> | <a href="?hidden">已隐藏</a>
+				</div>
+    	<table cellpadding="0" cellspacing="0" class="pub_list01 pri_blogPostList data-table">
+    	  <thead>
+    	     <tr>
+    	     
+    	        <th width="30%" class="second-col">博文</th>
+    	        <th width="30%" class="second-col" style="text-align:left">评论数</th>
+    	        <th width="30%" class="last-col">操作</th>
+    	      </tr>
+    	  </thead>
+    	   <tbody>
+
+    	   {foreach $list as $v}
+    	         <tr>
+    	      
+    	        <td  class="align-left">{$v['title']}</td>
+    	        <td  class="align-left">{$v['comment_count']}</td>
+    	        <td class="last-col"><button edit_id="{$v.id}"  style="width:50px; height:30px;border:none ;background-color:#90C044;color:#fff" class="edit_btn btn-primary" data-toggle="modal" data-target="#exampleModal" >查看</button>
+    	        </td>
+    	      </tr>
+ 			{/foreach}  			
+    	      </tbody>
+    	     
+    	</table>
+ 		  
+
+</div>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span  aria-hidden="true">&times;</span></button>
+            <h4 style="border-radius:6px;width:100%;height:50px;background-color:#90C044;color:#fff;text-align:center;line-height:50px" class="modal-title" id="exampleModalLabel">评论详情</h4>
+      </div>
+      <div class="modal-body">
+       		   	<table cellpadding="0" cellspacing="0" class="pub_list01 pri_blogPostList data-table">
+       		   	  <thead>
+       		   	     <tr>
+       		   	     
+       		   	        <th width="20%" class="second-col">评论者</th>
+       		   	        <th width="20%" class="second-col" style="text-align:left">评论内容</th>
+                        <th width="20%" class="last-col">时间</th>
+                        <th width="20%" class="last-col">操作</th>
+       		   	
+       		   	      </tr>
+
+       		   	  </thead>
+       		   	   <tbody id="J_TbData">
+
+       					
+       		   	      </tbody>
+       		   	     
+       		   	</table>
+       				  
+      </div>
+
+  </div>
+</div>
+
+</div>
+</div>
+		<script type="text/javascript" src="/static/other/.com/msg_count"></script>
+	<script type="text/javascript">
+	$('.edit_btn').click(function(){
+	        var edit_id = $(this).attr('edit_id');
+	         // document.getElementById('sub_id').value = edit_id;
+	        console.log(edit_id);
+	        showcomment(edit_id);
+	    });
+	    function showcomment(id){
+	     $.ajax({
+	            type:'get',
+	            url:'/blog/showcomment/'+id,
+	            dataType:'json',
+	            success:function(data){
+	              console.log(data);
+	                if (data.status) {
+                       var html = "";
+                             for( var i = 0; i < data.list.length; i++ ) {
+                                html += "<tr>";
+                                html +=     "<td>" + data.list[i].author + "</td>"
+                                html +=     "<td>" + data.list[i].text + "</td>"
+                                html +=     "<td>" + data.list[i].create_time + "</td>"
+                                html +=     "<td><button class='delete_btn' ac_id="+data.list[i].id+">删除</button></td>"
+                                html += "</tr>";
+                                 }
+                         $("#J_TbData").html(html);
+
+                         $('.delete_btn').click(function(){
+                            var c_id = $(this).attr('ac_id');
+                            console.log(c_id);
+
+                            if (confirm('确定要删除吗')) {
+                                $.ajax({
+                                    type:'get',
+                                    async : false, 
+                                    url:'/blog/delcomment',
+                                    data:{'c_id':c_id},
+                                    dataType:'json',
+                                    success:function(data){
+                                        console.log(data);
+                                        if (data.status) {
+                                            alert(data.msg);
+                                            $(this).parents('tr').remove();
+                                          
+                                        }
+                                    }
+                                });
+                            };
+                           
+                         });
+	                 }
+                },
+	            error:function(data){
+	                    alert('请求失败');
+	                }
+	       });
+
+	     } 
+
+  
+	</script>
+	<div id="footer" class="footer">
+    <div class="utilityMenu">
+        <a target="_blank" href="http://news.blogbus.com/">媒体报道</a>&nbsp;|&nbsp;
+        <a target="_blank" href="http://www.blogbus.com/about/about.html">关于我们</a>&nbsp;|&nbsp;
+        <a target="_blank" href="http://www.blogbus.com/about/jobs/jobs.html">工作机会</a>&nbsp;|
+        &nbsp;<a target="_blank" href="http://www.blogbus.com/about/blogserviceterm.html">相关法律</a>&nbsp;|
+        &nbsp;<a target="_blank" href="http://www.blogbus.com/about/adservice.html">广告服务</a>&nbsp;|
+        &nbsp;<a target="_blank" href="http://passport.blogbus.com/register_form">申请博客</a>&nbsp;|&nbsp;
+        <a target="_blank" href="http://www.blogbus.com/about/sitemap.html">网站地图</a>&nbsp;|&nbsp;<a target="_blank"
+                                                                                                    href="http://www.blogbus.com/about/partners.html">合作伙伴</a>
+    </div>
+    <div class="copyright">&copy; 2002-2017 BlogBus.com, All Rights Reserved. 博客云 版权所有 沪ICP B2-20080056号 <a
+            href="javascript:void(0)"
+            onclick="Picobox.showIFrameBox('反馈意见','http://home.blogbus.com/feedback?url=http%3A%2F%2Fblog.home.blogbus.com%2Fposts',{width:400,height:200});">反馈意见</a>
+    </div>
+</div>
+<div class="ajaxInfo msg_success" style="display:none;" id="flashMessage">
+    <div class="message"></div>
+</div>
+<script type="text/javascript">
+    function showFlashMessage(message) {
+        el = $('#flashMessage .message');
+        el.html(message);
+        $('#flashMessage').fadeIn();
+        setTimeout(function () {
+            $('#flashMessage').fadeOut('fast')
+        }, 3000);
+    }
+</script>
+
+<!--帮助-->
+<div class="pie page-help">
+    <div class="pie help-inner">
+        <ul>
+            <li><a target="_blank" href="http://bangzhuzhongxin.blogbus.com/logs/4514506.html">分类筛选，管理更便捷</a></li>
+            <li><a target="_blank" href="http://bangzhuzhongxin.blogbus.com/logs/4514503.html">隐藏/显示单篇日志</a></li>
+        </ul>
+    </div>
+</div>
+<div style="display:none;">
+</div>
+<div style='display:none'>
+    <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F8452dbf205b0f6608661b0fdea22c741' type='text/javascript'%3E%3C/script%3E"));
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F66e39c4b330e47cc1e523676f29c6402' type='text/javascript'%3E%3C/script%3E"));
+
+    </script>
+</div>
+</body>
+</html>

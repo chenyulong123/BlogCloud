@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>登录页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/admin/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/admin/css/site.css" rel="stylesheet">
+    <link href="/static/admin/css/bootstrap-responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="/static/admin/js/html5.js"></script>
+    <![endif]-->
+    <!--[if lte IE 8]><script src="/static/admin/js/excanvas.min.js"></script><![endif]-->
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+
+
+       <form action="{:url('Login/login')}" method="post">
+
+           <div class="form-p">
+               <h1>欢迎登录blogcloud</h1>
+           <input type="text" name="name"  placeholder='请输入用户名'>
+           <p><input type="text" name="password"  placeholder='请输密码'></p>
+           <p><button type="submit">提交</button></p>
+           </div>
+       </form>
+
+
+
+
+
+
+
+</body>
+</html>
+

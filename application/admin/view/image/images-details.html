@@ -1,0 +1,49 @@
+{extend name="index/index"}
+{block name="main"}
+
+
+        <!-- 博客列表 -->
+        <div class="span9">
+		  <div class="row-fluid">
+			<div class="page-header">
+				<h1>PHOTO <small>照片</small></h1><a href="images-list.html"></a>
+			</div>
+
+
+
+
+            
+
+				{volist name='$list1' id='vo'}
+
+				<div class="img-rounded div-size div-fl well sidebar-nav div-pt">
+                <img class="img-round-top imgd-size" src="{$vo.name}">
+
+				<button img_id="{$vo.id}" class="img-status">{$vo.status==1 ? "不显示":"显示"}</button>
+
+				</div>
+                {/volist}
+
+			
+			  
+			   
+			   	   
+
+			  
+		
+
+
+				
+			</div>
+
+
+			
+		  </div>
+        </div>
+      </div>
+
+      <hr>
+
+{/block}
+
+{block name="myimagesjs"}

@@ -1,0 +1,94 @@
+
+
+{extend name="index/index"}
+{block name="main"}
+        <div class="span9">
+            <div class="row-fluid">
+                <div class="page-header">
+                    <h1>EDIT USER <small>编辑用户</small></h1>
+                </div>
+                <form action="{:url('User/update',['id'=>$list['id']])}" class="form-horizontal" method="post">
+                    <fieldset>
+                        <div class="control-group">
+                            <label class="control-label" for="name">用户名</label>
+                            <div class="controls">
+                                <input type="text" name="name" class="input-xlarge" readonly="readonly" id="name" value="{$list['name']}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sex">sex</label>
+                            <div class="controls">
+                                <input type="text" name="sex" class="input-xlarge" id="sex" value="{$list['sex']}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="birthday_year">出生年</label>
+                            <div class="controls">
+                                <input type="text" name="birthday_year" class="input-xlarge" id="birthday_year" value="{$list['birthday_year']}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="birthday_month">出生月</label>
+                            <div class="controls">
+                                <input type="text" name="birthday_month" class="input-xlarge" id="birthday_month" value="{$list['birthday_month']}"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="birthday_day">出生日</label>
+                            <div class="controls">
+                                <input type="text" name="birthday_day" class="input-xlarge" id="birthday_day" value="{$list['birthday_day']}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="constellation">星座</label>
+                            <div class="controls">
+                                <input type="text" name='constellation' class="input-xlarge" id="constellation" value="{$list['constellation']}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="blood">血型</label>
+                            <div class="controls">
+                                <input type="text" name="blood" class="input-xlarge" id="blood" value="{$list['blood']}"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="live_province">省份</label>
+                            <div class="controls">
+                                <input type="text" name="live_province" class="input-xlarge" id="live_province" value="{$list['live_province']}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="live_city">市</label>
+                            <div class="controls">
+                                <input type="text" name="live_city" class="input-xlarge" id="live_city" value="{$list['live_city']}"/>
+                            </div>
+                        </div>
+                        <!--<div class="control-group">-->
+                        <!--<label class="control-label" for="role">Role</label>-->
+                        <!--<div class="controls">-->
+                        <!--<select name="role" id="role">-->
+                        <!--<option value="admin">Admin</option>-->
+                        <!--<option value="mod">Moderator</option>-->
+                        <!--<option value="user" selected>User</option>-->
+                        <!--</select>-->
+                        <!--</div>-->
+                        <!--</div>	-->
+                        <div class="control-group">
+                            <label class="control-label" for="active">Active?</label>
+                            <div class="controls">
+                                <input type="checkbox" id="active" value="1" />
+                            </div>
+                        </div>
+                        <div class="form-actions background-null">
+                            <input type="submit" class="btn btn-success btn-large" value="保存用户" /> <ainputututass="btn" href="../Vip/users.html">取消</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+{/block}

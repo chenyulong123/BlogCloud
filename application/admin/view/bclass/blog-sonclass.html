@@ -1,0 +1,55 @@
+{extend name="index/index"}
+{block name="main"}
+
+<!-- 博客列表 -->
+<div class="span9">
+	<div class="row-fluid">
+		<div class="page-header">
+			<h1>BLOG-SONCLASS<small>博客子级分类</small></h1>
+		</div>
+
+
+
+		<table class="table table-striped table-bordered table-condensed">
+			<thead>
+			<tr>
+				<th>ID</th>
+				<th>博客分类</th>
+				<th>子分类数量</th>
+				<th>pid</th>
+				<th>path</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			{volist name="list"   id="vo"}
+			<tr class="list-users">
+				<td>{$vo.id}</td>
+				<td>{$vo.category_name}</td>
+				<td>{$vo.son_count}</td>
+				<td>{$vo.pid}</td>
+				<td>{$vo.path}</td>
+				<td><div class="btn-group">
+					<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="{:url('bclass/newsonblogclass',['id'=>$vo['id']])}"><i class="icon-pencil"></i> 新建子级分类</a></li>
+						<li><a href="{:url('bclass/editclassname',['id'=>$vo['id']])}"><i class="icon-pencil"></i> Edit</a></li>
+						<li><a href="{:url('bclass/deleteclass',['id'=>$vo['id'],'son_count'=>$vo['son_count']])}"><i class="icon-trash"></i> Delete</a></li>
+						<li><a href="{:url('bclass/sonblogclasslist',['id'=>$vo['id']])}"><i class="icon-user"></i> 进入自子级分类列表</a></li>
+						<li class="nav-header">Permissions</li>
+
+					</ul>
+				</div></td>
+			</tr>
+			{/volist}
+
+			</tbody>
+		</table>
+
+	</div>
+</div>
+</div>
+
+<hr>
+
+{/block}
